@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3258CDD52AC5B4E600CB05FD /* TouristCartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3258CDD42AC5B4E600CB05FD /* TouristCartViewModel.swift */; };
 		3258CDD82ACB4CDE00CB05FD /* PropertyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3258CDD72ACB4CDE00CB05FD /* PropertyWrapper.swift */; };
+		3258CDDE2ACD94A800CB05FD /* TestFieldValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3258CDDD2ACD94A800CB05FD /* TestFieldValidation.swift */; };
 		32642D212AAB9BC100D3E8F9 /* Urls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32642D202AAB9BC100D3E8F9 /* Urls.swift */; };
 		32642D232AAB9C9E00D3E8F9 /* DecodeJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32642D222AAB9C9E00D3E8F9 /* DecodeJson.swift */; };
 		32642D252AAB9CCC00D3E8F9 /* RequestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32642D242AAB9CCC00D3E8F9 /* RequestData.swift */; };
@@ -57,6 +58,7 @@
 /* Begin PBXFileReference section */
 		3258CDD42AC5B4E600CB05FD /* TouristCartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouristCartViewModel.swift; sourceTree = "<group>"; };
 		3258CDD72ACB4CDE00CB05FD /* PropertyWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyWrapper.swift; sourceTree = "<group>"; };
+		3258CDDD2ACD94A800CB05FD /* TestFieldValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFieldValidation.swift; sourceTree = "<group>"; };
 		32642D202AAB9BC100D3E8F9 /* Urls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Urls.swift; sourceTree = "<group>"; };
 		32642D222AAB9C9E00D3E8F9 /* DecodeJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeJson.swift; sourceTree = "<group>"; };
 		32642D242AAB9CCC00D3E8F9 /* RequestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestData.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				3288F96E2AA72973001FF3D8 /* Mofifiers */,
 				3288F9482AA64DBB001FF3D8 /* Resources */,
 				3288F9472AA64DB0001FF3D8 /* Application */,
+				3258CDDD2ACD94A800CB05FD /* TestFieldValidation.swift */,
 			);
 			path = HotelBooking;
 			sourceTree = "<group>";
@@ -481,6 +484,7 @@
 				32642D252AAB9CCC00D3E8F9 /* RequestData.swift in Sources */,
 				3288F9762AA7BDC6001FF3D8 /* AboutHotel.swift in Sources */,
 				3288F9572AA6545D001FF3D8 /* RoomsView.swift in Sources */,
+				3258CDDE2ACD94A800CB05FD /* TestFieldValidation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

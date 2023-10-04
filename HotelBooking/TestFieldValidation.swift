@@ -1,6 +1,14 @@
+//
+//  TestFieldValidation.swift
+//  HotelBooking
+//
+//  Created by Steven Kirke on 04.10.2023.
+//
+
 import SwiftUI
 
-class TestViewModel: ObservableObject {
+
+class TestFieldValidationModel: ObservableObject {
     @Published var firstName = ""
     @Published var lastName = ""
     @Published var passportNumber = ""
@@ -31,8 +39,8 @@ enum NameFields: String {
     case passportNumber = "Passport Number"
 }
 
-struct TestView: View {
-    @StateObject private var vm = TestViewModel()
+struct TestFieldValidation: View {
+    @StateObject private var vm = TestFieldValidationModel()
 
     // Monitor focused state of text fields using this property
     @FocusState private var nameFields: NameFields?
@@ -45,21 +53,18 @@ struct TestView: View {
     var body: some View {
         VStack(spacing: 20) {
             CustomTextField(text: $vm.firstName,
-                            validation: $vm.nameValidation,
                             focus: $nameFields,
                             nameField: .firstName,
                             submitPressed: submitPressed
             )
 
             CustomTextField(text: $vm.lastName,
-                            validation: $vm.lastNameValidation,
                             focus: $nameFields,
                             nameField: .lastName,
                             submitPressed: submitPressed
             )
 
             CustomTextField(text: $vm.passportNumber,
-                            validation: $vm.passportValidation,
                             focus: $nameFields,
                             nameField: .passportNumber,
                             submitPressed: submitPressed
@@ -104,7 +109,6 @@ struct TestView: View {
 
 struct CustomTextField: View {
     @Binding var text: String
-    @Binding var validation: String
 
     @FocusState.Binding var focus: NameFields?
     var nameField: NameFields
@@ -119,26 +123,16 @@ struct CustomTextField: View {
                 .background(
                     RoundedRectangle(cornerRadius: 8)
                         .fill(text.isEmpty && submitPressed ? Color.red.opacity(0.5) : Color.clear)
-                        //.fill(text.isEmpty && submitPressed ? Color.red.opacity(0.5) : Color.clear)
-                        //.strokeBorder(Color.gray.opacity(0.2))
                 )
-
-            Text(validation)
-                .font(.caption2)
-                .padding(.trailing, 8)
         }
-    }
-    
-    func answer() {
-        
     }
 }
 
 
 #if DEBUG
-struct TestView_Previews: PreviewProvider {
+struct TestFieldValidation_Previews: PreviewProvider {
     static var previews: some View {
-        TestView()
+        TestFieldValidation()
     }
 }
 #endif

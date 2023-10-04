@@ -8,16 +8,30 @@
 import SwiftUI
 
 
-
+enum NameTextFields: String {
+    case phome = "Номер телефона"
+    case eMail = "Почта"
+    case firstName = "Имя"
+    case lastName = "Фамилия"
+    case dateBirth = "Дата рождения"
+    case citizenShip = "Гражданство"
+    case passportNumber = "Номер загранпаспорта"
+    case validityPassport = "Срок действия загранпаспорта"
+}
 
 struct CardTourist: View {
         
+   // @FocusState private var nameFields: NameTextFields?
+    @FocusState.Binding var nameFields: NameTextFields?
     @State var isShow: Bool = false
     
     @Binding var currentTourist: TouristCard
-    
+
     let title: String
 
+
+    
+    @Binding var submitPressed: Bool
     
     var body: some View {
         VStack(spacing: 0) {
@@ -27,28 +41,39 @@ struct CardTourist: View {
                         self.isShow.toggle()
                     }
                 }
+            }, test: {
+                print("1")
+                answer()
             })
             .padding(.bottom, isShow ? 17 : 0)
             if self.isShow {
                 VStack(spacing: 8) {
                     TextFieldForTouristWithPlaceholder(textField: $currentTourist.name,
-                                                       title: "Имя")
+                                                       focus: $nameFields,
+                                                       nameField: .lastName,
+                                                       submitPressed: submitPressed)
                     TextFieldForTouristWithPlaceholder(textField: $currentTourist.lastName,
-                                                       title: "Фамилия")
+                                                       focus: $nameFields,
+                                                       nameField: .firstName,
+                                                       submitPressed: submitPressed)
                     TextFieldForTourist(textField: $currentTourist.dateBirth,
-                                        isValid: isEmpty($currentTourist.dateBirth),
-                                        pleaceHolder: "Дата рождения",
-                                        type: .numberPad)
-                    .border(isEmpty($currentTourist.dateBirth) ? Color.black : Color.red)
-                    /*
+                                        focus: $nameFields,
+                                        nameField: .dateBirth,
+                                        type: .numberPad,
+                                        submitPressed: submitPressed)
                     TextFieldForTourist(textField: $currentTourist.citizenShip,
-                                        pleaceHolder: "Гражданство", answer: {})
+                                        focus: $nameFields,
+                                        nameField: .citizenShip,
+                                        submitPressed: submitPressed)
                     TextFieldForTourist(textField: $currentTourist.numberPassport,
-                                        pleaceHolder: "Номер загранпаспорта", answer: {})
+                                        focus: $nameFields,
+                                        nameField: .passportNumber,
+                                        submitPressed: submitPressed)
                     TextFieldForTourist(textField: $currentTourist.validityPeriodPassport,
-                                       pleaceHolder: "Срок действия загранпаспорта",
-                                        type: .numberPad, answer: {})
-                     */
+                                        focus: $nameFields,
+                                        nameField: .validityPassport,
+                                        type: .numberPad,
+                                        submitPressed: submitPressed)
                 }
             }
         }
@@ -59,54 +84,78 @@ struct CardTourist: View {
         .cornerRadius(15)
     }
     
-    func isEmpty(_ text: Binding<String>) -> Bool {
-        if !text.wrappedValue.isEmpty {
-            return true
+    func answer() {
+        if currentTourist.dateBirth.isEmpty {
+            nameFields = .dateBirth
+        } else if currentTourist.citizenShip.isEmpty {
+            nameFields = .citizenShip
+        } else if currentTourist.numberPassport.isEmpty {
+            nameFields = .passportNumber
+        } else if currentTourist.validityPeriodPassport.isEmpty {
+            nameFields = .validityPassport
         } else {
-            return false
+            nameFields = nil
         }
+        submitPressed = true
     }
 }
 
-protocol AnswerField {
-    func answerField(text: String) -> Bool
+
+struct TextFieldForTouristWithPlaceholder: View {
+    
+    @Binding var textField: String
+    @FocusState.Binding var focus: NameTextFields?
+    var nameField: NameTextFields
+    var submitPressed: Bool
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(nameField.rawValue)
+                .modifier(HeightModifier(size: 12, lineHeight: 120, weight: .regular))
+                .tracking(0.1)
+                .foregroundColor(.c_A9ABB7)
+            TextField("", text: $textField)
+                .modifier(HeightModifier(size: 16, lineHeight: 110, weight: .regular))
+                .tracking(0.075)
+                .foregroundColor(.c_14142B)
+                .textContentType(.name)
+                .tint(Color.black)
+        }
+        .vLeadingAndBack((self.textField.isEmpty && self.submitPressed) ? false : true)
+    }
 }
+
 
 struct TextFieldForTourist: View {
     
-
     @Binding var textField: String
-    @State var isValid: Bool = false
-
-    
-    let pleaceHolder: String
+    @FocusState.Binding var focus: NameTextFields?
+    var nameField: NameTextFields
     var type: UIKeyboardType = .default
+    var submitPressed: Bool
     
     var body: some View {
         ZStack(alignment: .leading) {
             if textField.isEmpty {
-                Text(pleaceHolder)
+                Text(nameField.rawValue)
                     .modifier(HeightModifier(size: 17,
                                              lineHeight: 110,
                                              weight: .regular))
                     .foregroundColor(.c_A9ABB7)
             }
-            HStack {
-                TextField("", text: $textField)
-                    .modifier(HeightModifier(size: 17,
-                                             lineHeight: 110,
-                                             weight: .regular))
-                    .tracking(0.1)
-                    .foregroundColor(.c_14142B)
-                    .tint(.black)
-                    .keyboardType(type)
-                Circle()
-                    .fill(isValid ? Color.green : Color.red)
-                    .frame(width: 10, height: 10)
-            }
+            TextField("", text: $textField)
+                .modifier(HeightModifier(size: 17,
+                                         lineHeight: 110,
+                                         weight: .regular))
+                .tracking(0.1)
+                .foregroundColor(.c_14142B)
+                .tint(.black)
+                .keyboardType(type)
+                .focused($focus, equals: nameField)
         }
-        .vLeadingAndBack(isValid)
+        .vLeadingAndBack((self.textField.isEmpty && self.submitPressed) ? false : true)
     }
+    
 }
 
 struct ShowCardTourist: View {
@@ -115,6 +164,7 @@ struct ShowCardTourist: View {
     
     var title: String = ""
     var action: () -> Void
+    var test: () -> Void
     
     
     var body: some View {
@@ -123,15 +173,25 @@ struct ShowCardTourist: View {
                 .modifier(HeightModifier(size: 22, lineHeight: 120, weight: .medium))
                 .foregroundColor(.black)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            Button(action: action) {
-                Image(systemName: "chevron.up")
-                    .rotationEffect(.degrees(isShow ? 0 : 180))
+            HStack(spacing: 12) {
+                Button(action: test) {
+                    Image(systemName: "checkmark.circle.fill")
+                }
+                .font(Font.system(size: 16))
+                .frame(width: 32, height: 32)
+                .foregroundColor(.c_0D72FF)
+                .background(Color.c_0D72FF_10)
+                .cornerRadius(6)
+                Button(action: action) {
+                    Image(systemName: "chevron.up")
+                        .rotationEffect(.degrees(isShow ? 0 : 180))
+                }
+                .font(Font.system(size: 16))
+                .frame(width: 32, height: 32)
+                .foregroundColor(.c_0D72FF)
+                .background(Color.c_0D72FF_10)
+                .cornerRadius(6)
             }
-            .font(Font.system(size: 16))
-            .frame(width: 32, height: 32)
-            .foregroundColor(.c_0D72FF)
-            .background(Color.c_0D72FF_10)
-            .cornerRadius(6)
         }
     }
 }
@@ -159,32 +219,6 @@ struct AddCardTourist: View {
         .solidBlackground()
     }
 }
-
-struct TextFieldForTouristWithPlaceholder: View {
-    
-    
-    @State var isValid: Bool = false
-    @Binding var textField: String
-    
-    let title: String
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text(title)
-                .modifier(HeightModifier(size: 12, lineHeight: 120, weight: .regular))
-                .tracking(0.1)
-                .foregroundColor(.c_A9ABB7)
-            TextField("", text: $textField)
-                .modifier(HeightModifier(size: 16, lineHeight: 110, weight: .regular))
-                .tracking(0.075)
-                .foregroundColor(.c_14142B)
-                .textContentType(.name)
-                .tint(Color.black)
-        }
-        .vLeadingAndBack(isValid)
-    }
-}
-
 
 
 

@@ -48,19 +48,4 @@ class TouristCartViewModel: ObservableObject {
             self.touristList.append(currentTourist)
         }
     }
-    
-    func showTourist() {
-        touristList.forEach { tourist in
-
-            let columnValues = Mirror(reflecting: tourist)
-                .children.map {
-                    "\($0.value)"
-                    print($0.label)
-                }
-            //print(columnValues.count)
-//            columnValues.forEach { elem in
-//                print(elem)
-//            }
-        }
-    }
 }

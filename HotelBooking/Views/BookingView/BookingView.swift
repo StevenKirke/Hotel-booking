@@ -18,6 +18,9 @@ struct BookingView: View {
     @ObservedObject var specification: GetSpecificationHotelViewModel = GetSpecificationHotelViewModel()
     @ObservedObject var touristList: TouristCartViewModel = TouristCartViewModel()
     
+    @FocusState private var nameFields: NameTextFields?
+
+    @State private var submitPressed = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -35,12 +38,16 @@ struct BookingView: View {
                     }
                     
                     BuyerInformation(textPhone: $touristList.phone,
-                                     textEmail: $touristList.eMail)
+                                     textEmail: $touristList.eMail,
+                                     nameFields: $nameFields,
+                                     submitPressed: $submitPressed) {
+                        answer()
+                    }
 
                     ForEach(touristList.touristList.indices, id: \.self) { index in
                         let nameCard = touristList.nameTourist[index] + " турист"
                         let zeroIndex = index == 0 ? true : false
-                        CardTourist(isShow: zeroIndex, currentTourist: $touristList.touristList[index], title: nameCard)
+                        CardTourist(nameFields: $nameFields, isShow: zeroIndex, currentTourist: $touristList.touristList[index], title: nameCard, submitPressed: $submitPressed)
                     }
 
                     AddCardTourist(title: "Добавить туриста", action: {
@@ -63,6 +70,26 @@ struct BookingView: View {
         .edgesIgnoringSafeArea(.top)
         .navigationBarTitle("", displayMode: .inline)
         .navigationBarBackButtonHidden(true)
+        .onSubmit {
+            submitPressed = true
+        }
+    }
+    
+    func answer() {
+        touristList.touristList.forEach { card in
+            if card.dateBirth.isEmpty {
+                nameFields = .dateBirth
+            } else if card.citizenShip.isEmpty {
+                nameFields = .citizenShip
+            } else if card.numberPassport.isEmpty {
+                nameFields = .passportNumber
+            } else if card.validityPeriodPassport.isEmpty {
+                nameFields = .validityPassport
+            } else {
+                nameFields = nil
+            }
+            submitPressed = true
+        }
     }
 }
 
@@ -126,19 +153,37 @@ struct CalculatePrice: View {
 
 struct BuyerInformation: View {
     
-    @State var isEmailValid: Bool = false
-    @State var isPhoneValid: Bool = false
     @Binding var textPhone: String
     @Binding var textEmail: String
     
+    @FocusState.Binding var nameFields: NameTextFields?
+    
+    @Binding var submitPressed: Bool
+    
+    var action: () -> Void
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Информация о покупателе")
-                .modifier(HeightModifier(size: 22, lineHeight: 120, weight: .medium))
-                .foregroundColor(.black)
-                .padding(.bottom, 12)
-            TextFieldForTouristWithPlaceholder(textField: $textEmail, title: "Номер телефона")
-            TextFieldForTouristWithPlaceholder(textField: $textPhone, title: "Почта")
+            HStack() {
+                Text("Информация о покупателе")
+                    .modifier(HeightModifier(size: 22, lineHeight: 120, weight: .medium))
+                    .foregroundColor(.black)
+                    .padding(.bottom, 12)
+                Spacer()
+                Button(action: action) {
+                    Image(systemName: "checkmark.circle.fill")
+                }
+            }
+            .frame(maxWidth: .infinity)
+
+            TextFieldForTouristWithPlaceholder(textField: $textPhone,
+                                               focus: $nameFields,
+                                               nameField: .phome,
+                                               submitPressed: submitPressed)
+            TextFieldForTouristWithPlaceholder(textField: $textEmail,
+                                               focus: $nameFields,
+                                               nameField: .eMail,
+                                               submitPressed: submitPressed)
             Text("Эти данные никому не передаются. После оплаты мы вышли чек на указанный вами номер и почту")
                 .modifier(HeightModifier(size: 14, lineHeight: 120, weight: .regular))
                 .foregroundColor(.c_828796)
