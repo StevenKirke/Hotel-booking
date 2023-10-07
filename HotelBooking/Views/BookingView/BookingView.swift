@@ -10,21 +10,19 @@ import SwiftUI
 
 struct BookingView: View {
     
-   var сontactVM: ContactViewModel = ContactViewModel()
-    
-    @Environment(\.presentationMode) var returnRoomsView: Binding<PresentationMode>
-    
-    var name: String = ""
-    
-    
+    @ObservedObject var contactVM: ContactViewModel = ContactViewModel()
     @ObservedObject var specification: GetSpecificationHotelViewModel = GetSpecificationHotelViewModel()
     @ObservedObject var touristList: TouristCartViewModel = TouristCartViewModel()
     
-    @FocusState private var nameFields: NameTextFields?
-
-    @State private var submitPressed = false
+    @Environment(\.presentationMode) var returnRoomsView: Binding<PresentationMode>
     
+    @FocusState private var nameFields: FieldForCard?
+    
+    @State private var submitPressed = false
     @State var isPairView: Bool = false
+    
+    var name: String = ""
+
     
     var body: some View {
         VStack(spacing: 0) {
@@ -41,10 +39,15 @@ struct BookingView: View {
                         InformationView(info: specification.desc)
                     }
                     
-                    BuyerInformation(textPhone: $touristList.phone,
+                    BuyerInformation(nameFields: $nameFields,
+                                     textPhone: $touristList.phoneMask,
                                      textEmail: $touristList.eMail,
-                                     nameFields: $nameFields,
-                                     submitPressed: $submitPressed)
+                                     submitPressed: $submitPressed,
+                                     action: {
+                        DispatchQueue.main.async {
+                           self.contactVM.getContactList()
+                        }
+                    })
                     
                     ForEach(touristList.touristList.indices, id: \.self) { index in
                         let nameCard = touristList.nameTourist[index] + " турист"
@@ -76,17 +79,99 @@ struct BookingView: View {
         .navigationBarTitle("", displayMode: .inline)
         .navigationBarBackButtonHidden(true)
         .onAppear() {
-            Task.init {
-                //await сontactVM.fetchAllContacts()
-                await сontactVM.fetchSpecificContact()
-            }
 
         }
         .onSubmit {
             submitPressed = true
         }
+        .sheet(isPresented: $contactVM.showingOptions, content: {
+            ActionSheetContacts(contactList: contactVM.contactList,
+                                phone: $touristList.phone,
+                                phoneMask: $touristList.phoneMask,
+                                showingOptions: $contactVM.showingOptions)
+        })
     }
+}
 
+
+
+struct ActionSheetContacts: View {
+    
+    var contactList: [Contact]
+
+    @Binding var phone: String
+    @Binding var phoneMask: String
+    @Binding var showingOptions: Bool
+    
+    var body: some View {
+        VStack(spacing: 10) {
+            HStack(alignment: .center, spacing: 0) {
+                Text("Контакты")
+                    .modifier(HeightModifier(size: 22, lineHeight: 120, weight: .medium))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundColor(.black)
+                Button(action: {
+                    self.closeActionView()
+                }) {
+                    Image.closeSquare
+                        .resizable()
+                        .frame(width: 24,height: 24)
+                        .foregroundColor(.black)
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 16)
+            ScrollView(.vertical, showsIndicators: false) {
+                ForEach(contactList.indices, id: \.self) { list in
+                    let contact = contactList[list]
+                    Button(action: {
+                        DispatchQueue.main.async {
+                            self.phone = contact.number
+                            self.phoneMask = contact.numberMask
+                            self.closeActionView()
+                        }
+                    }) {
+                        HStack(spacing: 0) {
+                            Text(contact.name)
+                                .modifier(HeightModifier(size: 16,
+                                                         lineHeight: 120,
+                                                         weight: .medium))
+                                .foregroundColor(.c_2C3035)
+                            Spacer()
+                            Text(contact.numberMask)
+                                .modifier(HeightModifier(size: 16,
+                                                         lineHeight: 120,
+                                                         weight: .medium))
+                                .foregroundColor(.c_828796)
+                        }
+                        .padding(.vertical, 10)
+                    }
+                    if list != contactList.count - 1 {
+                        createDivider()
+                    }
+                }
+                .padding(.horizontal, 16)
+            }
+            .background(Color.c_FBFBFC)
+            .cornerRadius(15)
+        }
+        .background(Color.white)
+        
+    }
+    
+    @ViewBuilder
+    func createDivider() -> some View {
+        Rectangle()
+            .fill(Color.c_828796_15)
+            .frame(height: 1)
+            .offset(x: -15)
+    }
+    
+    private func closeActionView() {
+        DispatchQueue.main.async {
+            self.showingOptions.toggle()
+        }
+    }
 }
  
 
@@ -149,12 +234,19 @@ struct CalculatePrice: View {
 
 struct BuyerInformation: View {
     
+    private let workToNumber: WorkToNumber = WorkToNumber()
+    
+    @FocusState.Binding var nameFields: FieldForCard?
+    @State var isValid: Bool = true
     @Binding var textPhone: String
-    @Binding var textEmail: String
-    
-    @FocusState.Binding var nameFields: NameTextFields?
-    
+    @Binding var textEmail: String {
+        if textEmail.isEmpty {
+            self.isValid = true
+        }
+    }
     @Binding var submitPressed: Bool
+
+    var action: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -167,7 +259,7 @@ struct BuyerInformation: View {
                                                    focus: $nameFields,
                                                    nameField: .phome,
                                                    submitPressed: submitPressed)
-                Button(action: {}) {
+                Button(action: action) {
                     Image(systemName: "list.bullet")
                         .resizable()
                         .frame(width: 20, height: 20)
@@ -175,10 +267,32 @@ struct BuyerInformation: View {
                 }
                 .padding(.trailing, 10)
             }
-            TextFieldForTouristWithPlaceholder(textField: $textEmail,
-                                               focus: $nameFields,
-                                               nameField: .eMail,
-                                               submitPressed: submitPressed)
+            VStack(spacing: 4) {
+                TextFieldForTouristWithPlaceholder(textField: $textEmail,
+                                                   focus: $nameFields,
+                                                   nameField: .eMail,
+                                                   submitPressed: submitPressed)
+                if !isValid {
+                    HStack(spacing: 5) {
+                        Image(systemName: "asterisk")
+                            .font(.system(size: 6))
+                        Text("Не верный адрес электронной почты")
+                            .modifier(HeightModifier(size: 12,
+                                                     lineHeight: 120,
+                                                     weight: .regular))
+                    }
+                    .foregroundColor(Color.c_EB5757)
+                    .padding(.leading, 16)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+            .onChange(of: textEmail) {
+                if self.workToNumber.textFieldValidatorEmail($0) {
+                    self.isValid = true
+                } else {
+                    self.isValid = false
+                }
+            }
             Text("Эти данные никому не передаются. После оплаты мы вышли чек на указанный вами номер и почту")
                 .modifier(HeightModifier(size: 14, lineHeight: 120, weight: .regular))
                 .foregroundColor(.c_828796)
@@ -186,6 +300,24 @@ struct BuyerInformation: View {
         .solidBlackground()
     }
 }
+
+class WorkToNumber {
+
+    func forTrailingZero(number: Double) -> String {
+        return String(format: "%.2f", number)
+    }
+    
+    func textFieldValidatorEmail(_ string: String) -> Bool {
+        if string.count > 100 {
+            return false
+        }
+        let emailFormat = "(?:[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}" + "~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\" + "x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[\\p{L}0-9](?:[a-" + "z0-9-]*[\\p{L}0-9])?\\.)+[\\p{L}0-9](?:[\\p{L}0-9-]*[\\p{L}0-9])?|\\[(?:(?:25[0-5" + "]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-" + "9][0-9]?|[\\p{L}0-9-]*[\\p{L}0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21" + "-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"
+        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
+        print(emailPredicate)
+        return emailPredicate.evaluate(with: string)
+    }
+}
+
 
 
 
@@ -238,6 +370,5 @@ struct BookingView_Previews: PreviewProvider {
     }
 }
 #endif
-
 
 

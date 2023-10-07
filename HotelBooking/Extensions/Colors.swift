@@ -27,7 +27,10 @@ extension Color {
         case c_FFA800
         case c_FFC700_20
         case c_EB5757_15
+        case c_EB5757
         case c_14142B
+        
+
     }
     
     init(_ name: Color.Name) {
@@ -57,6 +60,7 @@ extension Color {
     static let c_FFC700_20 = Color(Name.c_FFC700_20)
     
     static let c_EB5757_15 = Color(Name.c_EB5757_15)
+    static let c_EB5757 = Color(Name.c_EB5757)
     
     static let c_14142B = Color(Name.c_14142B)
     

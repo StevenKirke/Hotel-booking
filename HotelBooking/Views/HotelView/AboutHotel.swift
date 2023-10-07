@@ -18,8 +18,9 @@ struct AboutHotel: View {
             Text("Об отеле")
                 .modifier(HeightModifier(size: 22, lineHeight: 120, weight: .medium))
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .foregroundColor(.black)
             VStack(spacing: 0) {
-                TagView(array: hotelDescroption.peculiarities)
+                TagCloudView(array: hotelDescroption.peculiarities)
             }
             .padding(.bottom, -2)
             HStack(alignment: .center, spacing: 0) {
@@ -51,10 +52,7 @@ struct RangeServices: View {
             ForEach(RangeServicesButtons.allCases, id: \.self) { item in
                 ButtonServices(widthSeparator: $widthSeparator, service: item)
                 if item != RangeServicesButtons.allCases.last {
-                    Rectangle()
-                        .fill(Color.c_828796_15)
-                        .frame(width: widthSeparator, height: 1)
-                        .offset(x: -15)
+
                 }
             }
         }

@@ -8,20 +8,9 @@
 import SwiftUI
 
 
-enum NameTextFields: String {
-    case phome = "Номер телефона"
-    case eMail = "Почта"
-    case firstName = "Имя"
-    case lastName = "Фамилия"
-    case dateBirth = "Дата рождения"
-    case citizenShip = "Гражданство"
-    case passportNumber = "Номер загранпаспорта"
-    case validityPassport = "Срок действия загранпаспорта"
-}
-
 struct CardTourist: View {
         
-    @FocusState.Binding var nameFields: NameTextFields?
+    @FocusState.Binding var nameFields: FieldForCard?
     @State var isShow: Bool = false
     
     @Binding var currentTourist: TouristCard
@@ -83,8 +72,8 @@ struct CardTourist: View {
 struct TextFieldForTouristWithPlaceholder: View {
     
     @Binding var textField: String
-    @FocusState.Binding var focus: NameTextFields?
-    var nameField: NameTextFields
+    @FocusState.Binding var focus: FieldForCard?
+    var nameField: FieldForCard
     var submitPressed: Bool
     
     var body: some View {
@@ -108,8 +97,8 @@ struct TextFieldForTouristWithPlaceholder: View {
 struct TextFieldForTourist: View {
     
     @Binding var textField: String
-    @FocusState.Binding var focus: NameTextFields?
-    var nameField: NameTextFields
+    @FocusState.Binding var focus: FieldForCard?
+    var nameField: FieldForCard
     var type: UIKeyboardType = .default
     var submitPressed: Bool
     

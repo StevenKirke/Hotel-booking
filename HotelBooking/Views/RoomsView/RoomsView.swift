@@ -53,8 +53,9 @@ struct HotelHumberCard: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(room.name)
                     .modifier(HeightModifier(size: 22, lineHeight: 120, weight: .medium))
+                    .foregroundColor(.black)
                 VStack(spacing: 8) {
-                    TagView(array: room.peculiarities)
+                    TagCloudView(array: room.peculiarities)
                 }
                 Button(action: {}) {
                     HStack(spacing: 2) {

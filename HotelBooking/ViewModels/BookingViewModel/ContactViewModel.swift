@@ -9,53 +9,99 @@ import SwiftUI
 import Contacts
 
 
+struct Contact {
+    let name: String
+    let number: String
+    let numberMask: String
+    let image: String
+}
 
-
-class ContactViewModel {
+enum PhoneType {
+    case mobile
+    case main
+    case other
     
-    
-    @Published var currentNumber: String = ""
-    
-    
-    func fetchSpecificContact() async {
-        let store = CNContactStore()
-        let keys = [CNContactGivenNameKey, CNContactPhoneNumbersKey] as [CNKeyDescriptor]
-        let predicate = CNContact.predicateForContacts(matchingName: "Kate")
-        
-        do {
-            let contact = try store.unifiedContacts(matching: predicate, keysToFetch: keys)
-            print(contact)
-        } catch {
-            print("Error")
+    var image: String {
+        switch self {
+            case .mobile:
+                return "iphone.gen3"
+            case .main:
+                return "phone"
+            case .other:
+                return "smartphone"
         }
-        
-        
+    }
+}
+
+class ContactViewModel: ObservableObject {
+    
+    @Published var showingOptions = false
+    @Published var contactList: [Contact] = []
+    
+    func getContactList() {
+        Task.init {
+            await self.fetchAllContacts() { [weak self] list in
+                if !list.isEmpty {
+                    guard let self = self else {
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        self.contactList = list
+                        self.showingOptions = true
+                    }
+                }
+            }
+        }
     }
     
-    func fetchAllContacts() async {
+    
+    private func fetchAllContacts(returnList: ([Contact]) -> Void) async {
         
         let store = CNContactStore()
-        
-        let keys = [CNContactGivenNameKey, CNContactPhoneNumbersKey] as [CNKeyDescriptor]
-        
+        let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey] as [CNKeyDescriptor]
         let fetchRequest = CNContactFetchRequest(keysToFetch: keys)
+        
+        var tempContacts: [Contact] = []
         
         do {
             try store.enumerateContacts(with: fetchRequest) { contact, result in
                 for number in contact.phoneNumbers {
-                    switch number.label {
-                        case CNLabelPhoneNumberMobile:
-                            print(" - Mobile \(number.value.stringValue)")
-                        case CNLabelPhoneNumberMain:
-                            print(" - Main \(number.value.stringValue)")
-                        default:
-                            print(" - Other \(number.value.stringValue)")
+                    let phone = number.value.stringValue.removeNonNum()
+                    let fullName = assamblyFullName(contact.givenName, contact.familyName)
+                    
+                    if number.label == CNLabelPhoneNumberMobile {
+                        if !phone.isEmpty {
+                            tempContacts.append(creatingList(fullName, phone, .mobile))
+                        }
                     }
                 }
             }
         } catch {
-            print("Error")
+            print("Error load contact list.")
         }
+        return returnList(tempContacts)
     }
-
+    
+    
+    private func assamblyFullName(_ firstName: String?, _ lastName: String?) -> String {
+        (firstName ?? "") + " " + (lastName ?? "")
+    }
+    
+    
+    private func creatingList(_ name: String, _ phone: String, _ type: PhoneType) -> Contact {
+        var tempNumber = ""
+        switch phone.count {
+            case 10:
+                let assamply = "7" + phone
+                tempNumber = assamply.formatMaskPhone(.mobile)
+            case 11:
+                tempNumber = phone.formatMaskPhone(.mobile)
+            case 13:
+                tempNumber = phone.formatMaskPhone(.landline)
+            default:
+                tempNumber = ""
+        }
+        return Contact(name: name, number: phone, numberMask: tempNumber, image: type.image)
+    }
 }
+

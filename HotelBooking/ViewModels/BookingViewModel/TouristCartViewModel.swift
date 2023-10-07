@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 struct TouristCard {
     var name: String
     var lastName: String
@@ -22,6 +23,7 @@ class TouristCartViewModel: ObservableObject {
     @Published var isLoadTourist: Bool = false
     @Published var touristList: [TouristCard] = []
     @Published var phone: String = ""
+    @Published var phoneMask: String = ""
     @Published var eMail: String = ""
     
     

@@ -1,0 +1,10 @@
+[user]
+	name = StevenKirke
+	email = SFX.Montage@gmail.com
+[url "git@github.com:"]
+	//insteadOf = https://github.com/
+	//insteadOf = https://github.com/
+[push]
+	default = current
+[core]
+	excludesfile = ~/.gitignore_global

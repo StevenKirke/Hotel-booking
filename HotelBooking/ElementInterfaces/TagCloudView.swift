@@ -1,17 +1,18 @@
 //
-//  TagView.swift
+//  TagCloudView.swift
 //  HotelBooking
 //
-//  Created by Steven Kirke on 10.09.2023.
+//  Created by Steven Kirke on 07.10.2023.
 //
+
 
 import SwiftUI
 
-struct TagView: View {
+struct TagCloudView: View {
     
     private let tagCloud: TagCloud = TagCloud()
     
-    var array: [String] = ["42342", "423432", "43534fs"]
+   var array: [String] = ["42342", "423432", "43534fs"]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -19,6 +20,9 @@ struct TagView: View {
                 HStack(spacing: 8) {
                     ForEach(rows) { row in
                         TagElement(text: row.text)
+                            .onAppear() {
+                                print(row.text)
+                            }
                     }
                 }
             }
@@ -45,7 +49,7 @@ struct TagElement: View {
 #if DEBUG
 struct TagView_Previews: PreviewProvider {
     static var previews: some View {
-        TagView()
+        TagCloudView()
     }
 }
 #endif
