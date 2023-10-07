@@ -75,6 +75,7 @@ struct ButtonServices: View {
             service.image
                 .resizable()
                 .frame(width: 24,height: 24)
+                .foregroundColor(.black)
             HStack(spacing: 0) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(service.title)

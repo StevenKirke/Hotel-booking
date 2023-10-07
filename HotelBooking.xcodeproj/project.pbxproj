@@ -10,6 +10,10 @@
 		3258CDD52AC5B4E600CB05FD /* TouristCartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3258CDD42AC5B4E600CB05FD /* TouristCartViewModel.swift */; };
 		3258CDD82ACB4CDE00CB05FD /* PropertyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3258CDD72ACB4CDE00CB05FD /* PropertyWrapper.swift */; };
 		3258CDDE2ACD94A800CB05FD /* TestFieldValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3258CDDD2ACD94A800CB05FD /* TestFieldValidation.swift */; };
+		3258CDE02ACE9BDF00CB05FD /* PaidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3258CDDF2ACE9BDF00CB05FD /* PaidView.swift */; };
+		3258CDE32ACECCF000CB05FD /* PaidViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3258CDE22ACECCF000CB05FD /* PaidViewModel.swift */; };
+		3258CDE52ACEF33200CB05FD /* ContactViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3258CDE42ACEF33200CB05FD /* ContactViewModel.swift */; };
+		3258CDE72AD1597A00CB05FD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3258CDE62AD1597A00CB05FD /* GoogleService-Info.plist */; };
 		32642D212AAB9BC100D3E8F9 /* Urls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32642D202AAB9BC100D3E8F9 /* Urls.swift */; };
 		32642D232AAB9C9E00D3E8F9 /* DecodeJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32642D222AAB9C9E00D3E8F9 /* DecodeJson.swift */; };
 		32642D252AAB9CCC00D3E8F9 /* RequestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32642D242AAB9CCC00D3E8F9 /* RequestData.swift */; };
@@ -59,6 +63,10 @@
 		3258CDD42AC5B4E600CB05FD /* TouristCartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouristCartViewModel.swift; sourceTree = "<group>"; };
 		3258CDD72ACB4CDE00CB05FD /* PropertyWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyWrapper.swift; sourceTree = "<group>"; };
 		3258CDDD2ACD94A800CB05FD /* TestFieldValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFieldValidation.swift; sourceTree = "<group>"; };
+		3258CDDF2ACE9BDF00CB05FD /* PaidView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidView.swift; sourceTree = "<group>"; };
+		3258CDE22ACECCF000CB05FD /* PaidViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidViewModel.swift; sourceTree = "<group>"; };
+		3258CDE42ACEF33200CB05FD /* ContactViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewModel.swift; sourceTree = "<group>"; };
+		3258CDE62AD1597A00CB05FD /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		32642D202AAB9BC100D3E8F9 /* Urls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Urls.swift; sourceTree = "<group>"; };
 		32642D222AAB9C9E00D3E8F9 /* DecodeJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeJson.swift; sourceTree = "<group>"; };
 		32642D242AAB9CCC00D3E8F9 /* RequestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestData.swift; sourceTree = "<group>"; };
@@ -123,6 +131,14 @@
 				3258CDD72ACB4CDE00CB05FD /* PropertyWrapper.swift */,
 			);
 			path = PropertyWrapper;
+			sourceTree = "<group>";
+		};
+		3258CDE12ACECCCB00CB05FD /* PaidViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3258CDE22ACECCF000CB05FD /* PaidViewModel.swift */,
+			);
+			path = PaidViewModel;
 			sourceTree = "<group>";
 		};
 		32642D262AAB9D8100D3E8F9 /* HotelViewModel */ = {
@@ -197,6 +213,7 @@
 				32642D262AAB9D8100D3E8F9 /* HotelViewModel */,
 				32642D3D2AAE59AA00D3E8F9 /* RoomsViewModel */,
 				32C295742AAFF0E6000918B9 /* BookingViewModel */,
+				3258CDE12ACECCCB00CB05FD /* PaidViewModel */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -224,6 +241,7 @@
 		3288F9482AA64DBB001FF3D8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3258CDE62AD1597A00CB05FD /* GoogleService-Info.plist */,
 				3288F9552AA65418001FF3D8 /* Fonts */,
 				3288F93C2AA64A97001FF3D8 /* Info.plist */,
 				3288F9372AA64A97001FF3D8 /* Assets.xcassets */,
@@ -330,6 +348,7 @@
 		3288F9532AA64E87001FF3D8 /* PaidView */ = {
 			isa = PBXGroup;
 			children = (
+				3258CDDF2ACE9BDF00CB05FD /* PaidView.swift */,
 			);
 			path = PaidView;
 			sourceTree = "<group>";
@@ -367,6 +386,7 @@
 			children = (
 				32C295752AAFF0FF000918B9 /* GetSpecificationHotelViewModel.swift */,
 				3258CDD42AC5B4E600CB05FD /* TouristCartViewModel.swift */,
+				3258CDE42ACEF33200CB05FD /* ContactViewModel.swift */,
 			);
 			path = BookingViewModel;
 			sourceTree = "<group>";
@@ -434,6 +454,7 @@
 				3288F95F2AA65EB0001FF3D8 /* SFSemibold.otf in Resources */,
 				3288F95D2AA65E8B001FF3D8 /* SFRegular.otf in Resources */,
 				3288F9382AA64A97001FF3D8 /* Assets.xcassets in Resources */,
+				3258CDE72AD1597A00CB05FD /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,6 +466,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32642D2A2AAB9F8C00D3E8F9 /* HotelModel.swift in Sources */,
+				3258CDE52ACEF33200CB05FD /* ContactViewModel.swift in Sources */,
 				32C2957A2AAFF9E1000918B9 /* TourisеModel.swift in Sources */,
 				32642D3A2AAE24C000D3E8F9 /* TagCloud.swift in Sources */,
 				32642D362AAE173700D3E8F9 /* CarouselImages.swift in Sources */,
@@ -454,6 +476,7 @@
 				3288F9612AA66193001FF3D8 /* Images.swift in Sources */,
 				32642D282AAB9D9800D3E8F9 /* HotelViewModel.swift in Sources */,
 				3288F9432AA64BA3001FF3D8 /* MainView.swift in Sources */,
+				3258CDE32ACECCF000CB05FD /* PaidViewModel.swift in Sources */,
 				32642D232AAB9C9E00D3E8F9 /* DecodeJson.swift in Sources */,
 				3288F9672AA66BBA001FF3D8 /* Texts.swift in Sources */,
 				32C295782AAFF477000918B9 /* MockTourists.swift in Sources */,
@@ -472,6 +495,7 @@
 				3288F9312AA64A96001FF3D8 /* SceneDelegate.swift in Sources */,
 				32642D3C2AAE58D100D3E8F9 /* BookingView.swift in Sources */,
 				32AA86C32AAE858900E6FB62 /* View.swift in Sources */,
+				3258CDE02ACE9BDF00CB05FD /* PaidView.swift in Sources */,
 				32642D2E2AABB2CB00D3E8F9 /* String.swift in Sources */,
 				3288F9792AA7CA2A001FF3D8 /* RangeServicesButtons.swift in Sources */,
 				32642D302AABBF6E00D3E8F9 /* MockHotel.swift in Sources */,
@@ -633,6 +657,7 @@
 				INFOPLIST_FILE = HotelBooking/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Hotel booking";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Reason for accessing contacts";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -666,6 +691,7 @@
 				INFOPLIST_FILE = HotelBooking/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Hotel booking";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Reason for accessing contacts";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

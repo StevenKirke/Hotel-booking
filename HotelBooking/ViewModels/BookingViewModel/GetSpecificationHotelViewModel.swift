@@ -49,6 +49,9 @@ class GetSpecificationHotelViewModel: ObservableObject {
         self.getSpecification()
     }
 
+    deinit {
+        print("CLOSE Specification")
+    }
     
     func getSpecification() {
         if !isLoadDesc {

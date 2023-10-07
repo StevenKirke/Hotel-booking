@@ -21,7 +21,6 @@ enum NameTextFields: String {
 
 struct CardTourist: View {
         
-   // @FocusState private var nameFields: NameTextFields?
     @FocusState.Binding var nameFields: NameTextFields?
     @State var isShow: Bool = false
     
@@ -29,8 +28,6 @@ struct CardTourist: View {
 
     let title: String
 
-
-    
     @Binding var submitPressed: Bool
     
     var body: some View {
@@ -41,9 +38,6 @@ struct CardTourist: View {
                         self.isShow.toggle()
                     }
                 }
-            }, test: {
-                print("1")
-                answer()
             })
             .padding(.bottom, isShow ? 17 : 0)
             if self.isShow {
@@ -82,21 +76,6 @@ struct CardTourist: View {
         .padding(.vertical, 16)
         .background(Color.white)
         .cornerRadius(15)
-    }
-    
-    func answer() {
-        if currentTourist.dateBirth.isEmpty {
-            nameFields = .dateBirth
-        } else if currentTourist.citizenShip.isEmpty {
-            nameFields = .citizenShip
-        } else if currentTourist.numberPassport.isEmpty {
-            nameFields = .passportNumber
-        } else if currentTourist.validityPeriodPassport.isEmpty {
-            nameFields = .validityPassport
-        } else {
-            nameFields = nil
-        }
-        submitPressed = true
     }
 }
 
@@ -164,8 +143,6 @@ struct ShowCardTourist: View {
     
     var title: String = ""
     var action: () -> Void
-    var test: () -> Void
-    
     
     var body: some View {
         HStack(spacing: 0) {
@@ -173,25 +150,15 @@ struct ShowCardTourist: View {
                 .modifier(HeightModifier(size: 22, lineHeight: 120, weight: .medium))
                 .foregroundColor(.black)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            HStack(spacing: 12) {
-                Button(action: test) {
-                    Image(systemName: "checkmark.circle.fill")
-                }
-                .font(Font.system(size: 16))
-                .frame(width: 32, height: 32)
-                .foregroundColor(.c_0D72FF)
-                .background(Color.c_0D72FF_10)
-                .cornerRadius(6)
-                Button(action: action) {
-                    Image(systemName: "chevron.up")
-                        .rotationEffect(.degrees(isShow ? 0 : 180))
-                }
-                .font(Font.system(size: 16))
-                .frame(width: 32, height: 32)
-                .foregroundColor(.c_0D72FF)
-                .background(Color.c_0D72FF_10)
-                .cornerRadius(6)
+            Button(action: action) {
+                Image(systemName: "chevron.up")
+                    .rotationEffect(.degrees(isShow ? 0 : 180))
             }
+            .font(Font.system(size: 16))
+            .frame(width: 32, height: 32)
+            .foregroundColor(.c_0D72FF)
+            .background(Color.c_0D72FF_10)
+            .cornerRadius(6)
         }
     }
 }

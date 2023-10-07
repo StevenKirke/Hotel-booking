@@ -10,7 +10,6 @@ import Foundation
 
 
 
-
 class HotelViewModel: ObservableObject {
     
     private let requestData: RequestData = RequestData()
@@ -27,10 +26,10 @@ class HotelViewModel: ObservableObject {
     @Published var hotelDescription: AboutTheHotel = AboutTheHotel(description: "",
                                                                    peculiarities: [])
     
-    
     init() {
         self.getHotel()
     }
+    
     
     func getHotel() {
         if !isLoad {
@@ -95,7 +94,7 @@ class HotelViewModel: ObservableObject {
         self.hotel.name = currentHotel.adress.separate()
         self.hotel.adress = currentHotel.adress
         self.hotel.raiting = String(currentHotel.rating) + " " + currentHotel.ratingName
-        
+        self.hotel.minimalPrice = centesimalInt(currentHotel.minimalPrice)
         self.hotel.priceForIt = currentHotel.priceForIt.lowercased()
         
         self.hotel.images = currentHotel.imageUrls

@@ -64,7 +64,7 @@ struct HotelView: View {
     @Binding var isMainView: Bool
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 8) {
             if hotelVM.isLoad {
                 CardHotel(hotel: hotelVM.hotel)
                 AboutHotel(hotelDescroption: hotelVM.hotelDescription)
