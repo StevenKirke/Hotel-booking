@@ -15,11 +15,12 @@ let MockRooms: String = """
         {
             "id": 1,
             "name": "Стандартный номер с видом на бассейн",
-            "price": 186600,
+            "price": 212000,
             "price_per": "За 7 ночей с перелетом",
             "peculiarities": [
                 "Включен только завтрак",
-                "Кондиционер"
+                "Кондиционер",
+                "Бесплатный фитнес-клуб"
             ],
             "image_urls": [
                 "https://www.atorus.ru/sites/default/files/upload/image/News/56871/%D1%80%D0%B8%D0%BA%D1%81%D0%BE%D1%81%20%D1%81%D0%B8%D0%B3%D0%B5%D0%B9%D1%82.jpg",
@@ -30,17 +31,38 @@ let MockRooms: String = """
         {
             "id": 2,
             "name": "Люкс номер с видом на море",
-            "price": 289400,
+            "price": 174000,
             "price_per": "За 7 ночей с перелетом",
             "peculiarities": [
+                "Бесплатный Wifi на всей территории отеля",
                 "Все включено",
                 "Кондиционер",
-                "Собственный бассейн"
+                "Собственный бассейн",
+                "Шведский стол"
             ],
             "image_urls": [
                 "https://mmf5angy.twic.pics/ahstatic/www.ahstatic.com/photos/b1j0_roskdc_00_p_1024x768.jpg?ritok=65&twic=v1/cover=800x600",
-                "https://www.google.com/search?q=%D0%BD%D0%BE%D0%BC%D0%B5%D1%80+%D0%BB%D1%8E%D0%BA%D1%81+%D0%B2+%D0%BE%D1%82%D0%B5%D0%BB%D0%B8+%D0%B5%D0%B3%D0%B8%D0%BF%D1%82%D0%B0+%D1%81+%D1%81%D0%BE%D0%B1%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%BC+%D0%B1%D0%B0%D1%81%D1%81%D0%B5%D0%B9%D0%BD%D0%BE%D0%BC&tbm=isch&ved=2ahUKEwilufKp-4KBAxUfJxAIHR4uAToQ2-cCegQIABAA&oq=%D0%BD%D0%BE%D0%BC%D0%B5%D1%80+%D0%BB%D1%8E%D0%BA%D1%81+%D0%B2+%D0%BE%D1%82%D0%B5%D0%BB%D0%B8+%D0%B5%D0%B3%D0%B8%D0%BF%D1%82%D0%B0+%D1%81+%D1%81%D0%BE%D0%B1%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%BC+%D0%B1%D0%B0%D1%81%D1%81%D0%B5%D0%B9%D0%BD%D0%BE%D0%BC&gs_lcp=CgNpbWcQAzoECCMQJ1CqAVi6HGDmHWgAcAB4AIABXIgB3wySAQIyNZgBAKABAaoBC2d3cy13aXotaW1nwAEB&sclient=img&ei=Y3fuZOX7KJ_OwPAPntyE0AM&bih=815&biw=1440#imgrc=Nr2wzh3vuY4jEM&imgdii=zTCXWbFgrQ5HBM",
+                "https://images.jazhotels.com/TFbcyGhb4IxVBHpp5GbrcBTYAtk=/708x470/controlcenter-p1.synxis.com%2Fhotel%2F63064%2Fimages%2Froom%2Ftwo_bedroom_suite_-_living.jpg",
                 "https://tour-find.ru/thumb/2/bsb2EIEFA8nm22MvHqMLlw/r/d/screenshot_3_94.png"
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Люкс с 1 спальней",
+            "price": 163000,
+            "price_per": "За 7 ночей с перелетом",
+            "peculiarities": [
+                "Бесплатный Wifi на всей территории отеля",
+                "Все включено",
+                "Мини-бар",
+                "Балкон/веранда/терраса",
+                "Шведский стол",
+                "телефон",
+                "Вид на бассейн"
+            ],
+            "image_urls": [
+                "https://images.jazhotels.com/h-i32FaKmDxDY0SK2RpkDyNv_BQ=/708x470/controlcenter-p1.synxis.com%2Fhotel%2F63064%2Fimages%2Froom%2Fone-bedroom_suite_-_queen.jpg",
+                "https://images.jazhotels.com/jj9TfDb571I_KHkitTuQZ2xYKeQ=/708x470/controlcenter-p1.synxis.com%2Fhotel%2F63064%2Fimages%2Froom%2Fone-bedroom_suite_-_living_room.jpg"
             ]
         }
     ]

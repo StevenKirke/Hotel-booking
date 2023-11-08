@@ -21,11 +21,9 @@ class RoomsViewModel: ObservableObject {
         
     }
     
-    
     func getRoom() {
         if !isLoadRoom {
-            self.getData()
-            //self.getMock()
+            self.getMock()
         }
     }
     
@@ -103,8 +101,7 @@ class RoomsViewModel: ObservableObject {
     }
     
     private func centesimalInt(_ number: Int) -> String {
-        let conv = number.centesimal() + " ₽"
-        return conv
+        number.centesimal() + " ₽"
     }
 }
 

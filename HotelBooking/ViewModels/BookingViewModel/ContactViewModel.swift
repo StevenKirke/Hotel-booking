@@ -12,26 +12,9 @@ import Contacts
 struct Contact {
     let name: String
     let number: String
-    let numberMask: String
-    let image: String
+    let mask: String
 }
 
-enum PhoneType {
-    case mobile
-    case main
-    case other
-    
-    var image: String {
-        switch self {
-            case .mobile:
-                return "iphone.gen3"
-            case .main:
-                return "phone"
-            case .other:
-                return "smartphone"
-        }
-    }
-}
 
 class ContactViewModel: ObservableObject {
     
@@ -54,9 +37,7 @@ class ContactViewModel: ObservableObject {
         }
     }
     
-    
     private func fetchAllContacts(returnList: ([Contact]) -> Void) async {
-        
         let store = CNContactStore()
         let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey] as [CNKeyDescriptor]
         let fetchRequest = CNContactFetchRequest(keysToFetch: keys)
@@ -71,7 +52,9 @@ class ContactViewModel: ObservableObject {
                     
                     if number.label == CNLabelPhoneNumberMobile {
                         if !phone.isEmpty {
-                            tempContacts.append(creatingList(fullName, phone, .mobile))
+                            tempContacts.append(
+                                Contact(name: fullName, number: phone, mask: maskForNumber(phone))
+                            )
                         }
                     }
                 }
@@ -87,21 +70,20 @@ class ContactViewModel: ObservableObject {
         (firstName ?? "") + " " + (lastName ?? "")
     }
     
-    
-    private func creatingList(_ name: String, _ phone: String, _ type: PhoneType) -> Contact {
+    private func maskForNumber(_ phone: String) -> String {
         var tempNumber = ""
         switch phone.count {
-            case 10:
-                let assamply = "7" + phone
-                tempNumber = assamply.formatMaskPhone(.mobile)
-            case 11:
-                tempNumber = phone.formatMaskPhone(.mobile)
-            case 13:
-                tempNumber = phone.formatMaskPhone(.landline)
-            default:
-                tempNumber = ""
+        case 10:
+            let assamply = "7" + phone
+            tempNumber = assamply.formatMaskPhone(.mobile)
+        case 11:
+            tempNumber = phone.formatMaskPhone(.mobile)
+        case 13:
+            tempNumber = phone.formatMaskPhone(.landline)
+        default:
+            tempNumber = ""
         }
-        return Contact(name: name, number: phone, numberMask: tempNumber, image: type.image)
+        return tempNumber
     }
 }
 

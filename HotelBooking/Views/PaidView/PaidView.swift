@@ -11,14 +11,18 @@ struct PaidView: View {
     
     @Environment(\.presentationMode) var returnBookingView: Binding<PresentationMode>
     
+    @Binding var isMainView : Bool
+    
     var body: some View {
         VStack(spacing: 0) {
             CustomNavigationTabBar(label: "Заказ оплачен",
-                                   content:
-                                    ButtonForNavigationTabBar(action: returnView)
+                                   content: EmptyView()
+                                    //ButtonForNavigationTabBar(action: returnView)
             )
             PaidContent()
-            CustomTapBar(text: "Супер!", action: {})
+            CustomTapBar(text: "Супер!", action: {
+                self.isMainView.toggle()
+            })
         }
         .background(Color.white)
         .edgesIgnoringSafeArea(.vertical)
@@ -63,7 +67,7 @@ struct PaidContent: View {
 #if DEBUG
 struct PaidView_Previews: PreviewProvider {
     static var previews: some View {
-       PaidView()
+        PaidView(isMainView: .constant(false))
     }
 }
 #endif

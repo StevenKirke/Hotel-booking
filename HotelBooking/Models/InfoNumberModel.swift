@@ -8,6 +8,9 @@
 import Foundation
 
 
+struct InfoNumbers: Codable {
+    let mumbers: [InfoMumber]
+}
 
 struct InfoMumber: Codable {
     var id: Int

@@ -12,6 +12,7 @@ import SwiftUI
 struct AboutHotel: View {
     
     @State var hotelDescroption: AboutTheHotel
+    @Binding var isMainView : Bool
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {

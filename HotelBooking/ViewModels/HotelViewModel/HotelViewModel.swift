@@ -33,8 +33,7 @@ class HotelViewModel: ObservableObject {
     
     func getHotel() {
         if !isLoad {
-            self.getData()
-           //self.getMock()
+           self.getMock()
         }
     }
     

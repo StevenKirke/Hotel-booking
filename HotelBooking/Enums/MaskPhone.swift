@@ -8,6 +8,6 @@
 import Foundation
 
 enum MaskPhone: String {
-    case mobile = "+X (XXX) XXX-XXXX"
+    case mobile = "+X (XXX) XXX-XX-XX"
     case landline = "+XX XXXXXXXXXX"
 }

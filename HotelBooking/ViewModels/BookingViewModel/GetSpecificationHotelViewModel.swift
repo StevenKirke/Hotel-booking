@@ -46,30 +46,24 @@ class GetSpecificationHotelViewModel: ObservableObject {
                                                        serviceCharge: "", totalPrice: "")
     
     init() {
-        self.getSpecification()
-    }
-
-    deinit {
-        print("CLOSE Specification")
+        
     }
     
-    func getSpecification() {
+    func getSpecification(_ index: Int) {
+		let infoNumber: InfoNumbers = InfoNumbers(mumbers: [])
         if !isLoadDesc {
-            /*
-            let infoNumber: InfoMumber? = nil
-            self.getMock(mock: MockInfoNumber, model: infoNumber) { [weak self] infoNumber in
-                guard let self = self else {
+			self.getMock(mock: mocDescriptionNumber, model: infoNumber) { json in
+				guard let currentJSON = json else {
+					return
+				}
+                let currentRoom = currentJSON.mumbers.filter { $0.id == index }
+                guard let room = currentRoom.first else {
                     return
                 }
-                guard let currentModel = infoNumber else {
-                    return
-                }
-                self.modelProcessing(currentModel) { result in
+                self.modelProcessing(room) { result in
                     self.isLoadDesc = true
                 }
-            }
-             */
-            self.getData()
+			}
         }
     }
     
@@ -135,16 +129,12 @@ class GetSpecificationHotelViewModel: ObservableObject {
         
         let summ = temptModel.tourPrice + temptModel.fuelCharge + temptModel.serviceCharge
         self.totalPrice.totalPrice = centesimalInt(summ)
-
         result(true)
     }
     
     private func centesimalInt(_ number: Int) -> String {
-        let conv = number.centesimal() + " ₽"
-        return conv
+        number.centesimal() + " ₽"
     }
 
 }
 
-
-//centesimal

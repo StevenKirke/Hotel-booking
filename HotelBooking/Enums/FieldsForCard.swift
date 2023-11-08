@@ -8,7 +8,7 @@
 import Foundation
 
 enum FieldForCard: String {
-    case phome = "Номер телефона"
+    case phone = "Номер телефона"
     case eMail = "Почта"
     case firstName = "Имя"
     case lastName = "Фамилия"

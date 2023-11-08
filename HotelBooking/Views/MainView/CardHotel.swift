@@ -12,6 +12,8 @@ struct CardHotel: View {
     @State var hotel: HotelTitle
     @State var currentIndex: Int = 0
     
+    @State var isCardHotel : Bool = false
+    
     var body: some View {
         VStack(spacing: 16) {
             CarouselImages(images: hotel.images)

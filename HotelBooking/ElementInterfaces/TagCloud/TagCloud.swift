@@ -16,7 +16,7 @@ struct Tag: Identifiable, Hashable {
 class TagCloud {
     
     let fontSize: CGFloat = 16
-
+    
     func generateCloud(_ array: [String]) -> [[Tag]] {
         var tags: [Tag] = []
         var tagCloud: [[Tag]] = []

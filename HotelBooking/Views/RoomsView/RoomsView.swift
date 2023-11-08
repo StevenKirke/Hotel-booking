@@ -12,6 +12,8 @@ struct RoomsView: View {
     @Environment(\.presentationMode) var returnMainView: Binding<PresentationMode>
     @ObservedObject var roomsVM: RoomsViewModel = RoomsViewModel()
     
+    @Binding var isMainView : Bool
+    
     var nameHotel: String
     
     var body: some View {
@@ -25,7 +27,10 @@ struct RoomsView: View {
                 VStack(spacing: 8) {
                     ForEach(roomsVM.room.indices, id: \.self) { index in
                         if roomsVM.isLoadRoom {
-                            HotelHumberCard(room: roomsVM.room[index])
+                            HotelHumberCard(
+                                room: roomsVM.room[index],
+                                isMainView: $isMainView
+                            )
                         }
                     }
                 }
@@ -46,7 +51,8 @@ struct HotelHumberCard: View {
     var room: RoomTitle
     
     @State var isNumberView: Bool = false
-        
+    @Binding var isMainView : Bool
+    
     var body: some View {
         VStack(spacing: 8) {
             CarouselImages(images: room.images)
@@ -97,7 +103,10 @@ struct HotelHumberCard: View {
                         .background(Color.c_0D72FF)
                         .cornerRadius(15)
                         .navigationDestination(isPresented: $isNumberView) {
-                            BookingView(name: room.name)
+                            BookingView(
+                                isMainView: $isMainView,
+                                        idRoom: room.id
+                            )
                         }
                 }
             }
@@ -115,7 +124,7 @@ struct HotelHumberCard: View {
 #if DEBUG
 struct NumberView_Previews: PreviewProvider {
     static var previews: some View {
-        RoomsView(nameHotel: "Madinat Makadi")
+        RoomsView(isMainView: .constant(false), nameHotel: "Steigenberger Makadi")
     }
 }
 #endif

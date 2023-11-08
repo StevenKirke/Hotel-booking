@@ -19,14 +19,11 @@ class PaidViewModel: ObservableObject {
     private var isLoad: Bool = false
     
     init() {
-        print("111")
         if !isLoad {
             self.code = genericNumber(6)
             $code
                 .sink { value in
-                    print("value \(value)")
                 } receiveValue: { other in
-                    print("other \(other)")
                 }
                 .store(in: &cancellables)
             self.isLoad = true

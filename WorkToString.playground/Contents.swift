@@ -2,61 +2,132 @@
 
 import SwiftUI
 
-func number(text: String) {
-   // print(text)
-    let currentText = text.removeNonNum()
-    print(currentText)
-    /*
-    switch currentText.count {
-        case 10:
-            let assambly = "7" + currentText
-            let newFormat = format(with: "+X (XXX) XXX-XXXX", phone: assambly)
-            print(newFormat)
-        //case 11:
-            //let newFormat = format(with: "+X (XXX) XXX-XXXX", phone: currentText)
-            //print(newFormat)
-        default:
-            print("Incorrect phone number!")
+
+class ViewModel: ObservableObject {
+    @Published var firstName = ""
+    @Published var lastName = ""
+    @Published var passportNumber = ""
+
+    @Published var nameValidation = ""
+    @Published var lastNameValidation = ""
+    @Published var passportValidation = ""
+
+    init() {
+        $firstName
+            .map {$0.isEmpty ? "🔴" : "🟢"}
+            .assign(to: &$nameValidation)
+
+        $lastName
+            .map {$0.isEmpty ? "🔴" : "🟢"}
+            .assign(to: &$lastNameValidation)
+
+        $passportNumber
+            .map {$0.isEmpty ? "🔴" : "🟢"}
+            .assign(to: &$passportValidation)
     }
-    */
 }
 
-private func removeNonNUmeric(phone: String) -> String {
-    let target = "[^0-9]"
-    let result = phone.replacingOccurrences( of: target,
-                                             with: "",
-                                             options: .regularExpression)
-    return result
+// Create enum to monitor focus state of text fields
+enum NameFields: String {
+    case firstName = "First Name"
+    case lastName = "Last Name"
+    case passportNumber = "Passport Number"
 }
 
+struct ContentView: View {
+    @StateObject private var vm = ViewModel()
 
+    // Monitor focused state of text fields using this property
+    @FocusState private var nameFields: NameFields?
 
-private func format(with mask: String, phone: String) -> String {
-    var result = ""
-    var index = phone.startIndex
-    for ch in mask where index < phone.endIndex {
-        if ch == "X" {
-            result.append(phone[index])
-            index = phone.index(after: index)
+    @State private var submitPressed = false
 
-        } else {
-            result.append(ch)
+    // This is just to show on the screen what was submitted
+    @State private var showSubmittedNames = false
+
+    var body: some View {
+        VStack(spacing: 20) {
+            CustomTextField(text: $vm.firstName,
+                            validation: $vm.nameValidation,
+                            focus: $nameFields,
+                            nameField: .firstName,
+                            submitPressed: submitPressed
+            )
+
+            CustomTextField(text: $vm.lastName,
+                            validation: $vm.lastNameValidation,
+                            focus: $nameFields,
+                            nameField: .lastName,
+                            submitPressed: submitPressed
+            )
+
+            CustomTextField(text: $vm.passportNumber,
+                            validation: $vm.passportValidation,
+                            focus: $nameFields,
+                            nameField: .passportNumber,
+                            submitPressed: submitPressed
+            )
+
+            Button("Submit") {
+                if vm.firstName.isEmpty {
+                    nameFields = .firstName
+                } else if vm.lastName.isEmpty {
+                    nameFields = .lastName
+                } else if vm.passportNumber.isEmpty {
+                    nameFields = .passportNumber
+                } else {
+                    // save function or whatever logic applied when all fields are filled
+                    // here we just toggle to show the names on the screen
+                    showSubmittedNames = true
+                    nameFields = nil
+                }
+
+                submitPressed = true
+
+            }
+            // with this you can change return button name on virtual keyboard
+            // other options also available like 'go', 'join', 'next' etc
+            .submitLabel(.done)
+
+            // This is just to show that data was submitted
+            if showSubmittedNames {
+                Text(vm.firstName + " " + vm.lastName + " " + vm.passportNumber)
+            } else {
+                EmptyView()
+            }
+        }
+        .padding()
+        .onSubmit {
+            // once you tap return on virtual keyboard this will be triggered
+            showSubmittedNames = true
+            submitPressed = true
         }
     }
-    return result
 }
 
+struct CustomTextField: View {
+    @Binding var text: String
+    @Binding var validation: String
 
-number(text: "(707) 555-1854")
-//number(text: "+7 (968) 891-85-22")
+    @FocusState.Binding var focus: NameFields?
+    var nameField: NameFields
 
+    var submitPressed: Bool
 
-extension String {
-    func removeNonNum() -> String {
-        let target = "[^0-9]"
-        let result = self.replacingOccurrences( of: target,
-                                                 with: "",
-                                                 options: .regularExpression)
-        return result
+    var body: some View {
+        ZStack(alignment: .trailing) {
+            TextField("\(nameField.rawValue)", text: $text)
+                .padding(8)
+                .focused($focus, equals: nameField)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(text.isEmpty && submitPressed ? Color.red.opacity(0.5) : Color.clear)
+                        .strokeBorder(Color.gray.opacity(0.2))
+                )
+
+            Text(validation)
+                .font(.caption2)
+                .padding(.trailing, 8)
+        }
     }
 }

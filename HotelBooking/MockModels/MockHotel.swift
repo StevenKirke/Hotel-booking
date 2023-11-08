@@ -20,7 +20,9 @@ let MockHotel: String = """
     "image_urls": [
         "https://www.atorus.ru/sites/default/files/upload/image/News/56149/Club_Priv%C3%A9_by_Belek_Club_House.jpg",
         "https://deluxe.voyage/useruploads/articles/The_Makadi_Spa_Hotel_02.jpg",
-        "https://deluxe.voyage/useruploads/articles/article_1eb0a64d00.jpg"
+        "https://deluxe.voyage/useruploads/articles/article_1eb0a64d00.jpg",
+        "https://storage.googleapis.com/jaz-prod/strapi/Coco_Pool_Bar_1f0dd56d6f/Coco_Pool_Bar_1f0dd56d6f.jpg",
+        "https://storage.googleapis.com/jaz-prod/strapi/Golf_Court_7aff56564d/Golf_Court_7aff56564d.jpg"
     ],
     "about_the_hotel": {
         "description": "Отель VIP-класса с собственными гольф полями. Высокий уровнь сервиса. Рекомендуем для респектабельного отдыха. Отель принимает гостей от 18 лет!",

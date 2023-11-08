@@ -67,11 +67,13 @@ struct HotelView: View {
         VStack(spacing: 8) {
             if hotelVM.isLoad {
                 CardHotel(hotel: hotelVM.hotel)
-                AboutHotel(hotelDescroption: hotelVM.hotelDescription)
+                AboutHotel(
+                    hotelDescroption: hotelVM.hotelDescription,
+                    isMainView: $isMainView)
             }
         }
         .navigationDestination(isPresented: $isMainView) {
-            RoomsView(nameHotel: hotelVM.hotel.name)
+            RoomsView(isMainView: $isMainView, nameHotel: hotelVM.hotel.name)
         }
     }
 }

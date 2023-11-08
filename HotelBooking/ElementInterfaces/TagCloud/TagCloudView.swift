@@ -12,7 +12,7 @@ struct TagCloudView: View {
     
     private let tagCloud: TagCloud = TagCloud()
     
-   var array: [String] = ["42342", "423432", "43534fs"]
+   var array: [String] = []
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -20,9 +20,6 @@ struct TagCloudView: View {
                 HStack(spacing: 8) {
                     ForEach(rows) { row in
                         TagElement(text: row.text)
-                            .onAppear() {
-                                print(row.text)
-                            }
                     }
                 }
             }

@@ -15,7 +15,6 @@ extension String {
         return CharacterSet(charactersIn: self).isSubset(of: digitsCharacters)
     }
     
-    
     func removeNonNum() -> String {
         let target = "[^0-9]"
         let result = self.replacingOccurrences( of: target,
@@ -23,7 +22,6 @@ extension String {
                                                  options: .regularExpression)
         return result
     }
-    
     
     func formatMaskPhone(_ mask: MaskPhone) -> String {
         let currentMask = mask.rawValue
@@ -41,7 +39,6 @@ extension String {
         return result
     }
     
-    
     func separate() -> String {
         let separate = self.components(separatedBy: ",").first
         guard let firstElement = separate else {
@@ -49,7 +46,6 @@ extension String {
         }
        return firstElement
     }
-    
     
     func dataSeparator() -> String {
         let maxNumberCount = 8
@@ -70,16 +66,16 @@ extension String {
             
             if number.count < 4 {
                 pattern = "(\\d{2})(\\d+)"
-                target = "$1.$2"
+                target = "$1/$2"
             } else if number.count < 5 {
                 pattern = "(\\d{2})(\\d{2})"
-                target = "$1.$2"
+                target = "$1/$2"
             } else if number.count < 6 {
                 pattern = "(\\d{2})(\\d{2})(\\d+)"
-                target = "$1.$2.$3"
+                target = "$1/$2/$3"
             } else {
                 pattern = "(\\d{2})(\\d{2})(\\d+)"
-                target = "$1.$2.$3"
+                target = "$1/$2/$3"
             }
             number = number.replacingOccurrences(of: pattern, with: target, options: .regularExpression, range: regRange)
         } catch {
@@ -87,9 +83,46 @@ extension String {
         }
         return number
     }
+    
+    func textFieldValidatorEmail() -> Bool {
+        if self.count > 100 {
+            return false
+        }
+        let emailFormat = "(?:[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}" + "~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\" + "x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[\\p{L}0-9](?:[a-" + "z0-9-]*[\\p{L}0-9])?\\.)+[\\p{L}0-9](?:[\\p{L}0-9-]*[\\p{L}0-9])?|\\[(?:(?:25[0-5" + "]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-" + "9][0-9]?|[\\p{L}0-9-]*[\\p{L}0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21" + "-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"
+        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
+        return emailPredicate.evaluate(with: self)
+    }
+    
+    mutating func formatPhoneMumberDateString() {
+        if self.count <= 18 {
+            let removeNonNuneric = self.removeNonNum()
+            let convert = removeNonNuneric.formatMaskPhone(.mobile)
+            let crop = String(convert.prefix(18))
+            self = crop
+        }
+        if self.count > 18 {
+            self.removeLast()
+        }
+    }
+    
 }
 
+/*
+ 
+ var phoneNumber: String
 
+ mutating func formatPhoneMumberDateString() {
+     if phoneNumber.count <= 18 {
+         let removeNonNuneric = phoneNumber.removeNonNum()
+         let convert = removeNonNuneric.formatMaskPhone(.mobile)
+         let crop = String(convert.prefix(18))
+         phoneNumber = crop
+     }
+     if phoneNumber.count > 18 {
+         phoneNumber.removeLast()
+     }
+ }
+ */
 
 extension Int {
     func centesimal() -> String {
