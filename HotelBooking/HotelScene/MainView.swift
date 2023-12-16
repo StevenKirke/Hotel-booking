@@ -47,13 +47,11 @@ struct MainView: View {
 					})
 				}
 				.edgesIgnoringSafeArea(.all)
-
 			}
 		}
 		.navigationBarTitle("", displayMode: .inline)
 		.navigationBarBackButtonHidden(true)
 	}
-
 }
 
 struct HotelView: View {
@@ -79,8 +77,10 @@ struct HotelView: View {
 
 #if DEBUG
 struct MainView_Previews: PreviewProvider {
+	@State static var coordinator = AppCoordinator()
 	static var previews: some View {
 		MainView()
+			.environmentObject(coordinator)
 	}
 }
 #endif

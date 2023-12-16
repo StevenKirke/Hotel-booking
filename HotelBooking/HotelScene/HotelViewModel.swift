@@ -7,13 +7,15 @@
 
 import Foundation
 
-class HotelViewModel: ObservableObject {
+enum ProcessingError: Error {
+	case errorProcessingModel
+}
 
-	private let requestData: RequestData = RequestData()
-	private let jsonManager: DecodeJson = DecodeJson()
+final class HotelViewModel: ObservableObject {
 
+	// MARK: - Public properties
 	@Published var isLoad: Bool = false
-
+	@Published var hotelDescription: AboutTheHotel = AboutTheHotel(description: "", peculiarities: [])
 	@Published var hotel: HotelTitle = HotelTitle(
 		id: 0,
 		name: "",
@@ -24,91 +26,57 @@ class HotelViewModel: ObservableObject {
 		images: []
 	)
 
-	@Published var hotelDescription: AboutTheHotel = AboutTheHotel(description: "", peculiarities: [])
+	// MARK: - Dependencies
+	private let requestData: RequestData = RequestData()
+	private let jsonManager: DecodeJson = DecodeJson()
 
+	// MARK: - Private properties
+
+	// MARK: - Initializator
 	init() {
-		self.getHotel()
+		self.getHotelData()
 	}
 
-	func getHotel() {
+	// MARK: - Lifecycle
+
+	// MARK: - Public methods
+	func getHotelData() {
 		if !isLoad {
 			self.getMock()
 		}
 	}
 
-	private func getMock1() {
-		let hotels: Hotels? = nil
-		let currentData = Data(mockHotel.utf8)
-		self.jsonManager.decodeJSON(data: currentData, model: hotels) { [weak self] result in
-			guard let self = self else {
-				return
-			}
-			if case let .success(json) = result {
-				self.modelProcessing(json) { result in
-					self.isLoad = result
-				}
-			}
-		}
-	}
-
+	// MARK: - Private methods
 	private func getMock() {
 		let hotels: Hotels? = nil
 		let currentData = Data(mockHotel.utf8)
-		self.jsonManager.decodeJSON(data: currentData, model: hotels) { [weak self] json, error in
-			guard let self = self else {
-				return
+		self.jsonManager.decodeJSON(data: currentData, model: hotels) { result in
+			if case let .success(jsonModel) = result {
+				self.modelProcessing(jsonModel: jsonModel) { processingModel in
+					if case let .success(model) = processingModel {
+						self.isLoad = true
+					}
+					if case let .failure(error) = processingModel {
+						self.showErrorView(masssage: error)
+					}
+				}
 			}
-			if error != "" {
-				print("Error - ", error)
-			}
-			guard let currentJSON = json else {
-				return
-			}
-			self.modelProcessing(currentJSON) { result in
-				self.isLoad = result
+			if case let .failure(error) = result {
+				self.showErrorView(masssage: error)
 			}
 		}
 	}
 
-	private func getData() {
-		let hotels: Hotels? = nil
-		self.requestData.getData(url: URLs.hotel.url) { [weak self] data, error in
-			guard let self = self else {
-				return
-			}
-			if error != "" {
-				print("Error - ", error)
-			}
-			guard let currentData = data else {
-				return
-			}
-			self.jsonManager.decodeJSON(data: currentData, model: hotels) { [weak self] json, error in
-				if error != "" {
-					print("Error - ", error)
-				}
-				guard let self = self else {
-					return
-				}
-				guard let currentJSON = json else {
-					return
-				}
-				self.modelProcessing(currentJSON) { result in
-					self.isLoad = result
-				}
-			}
-		}
-	}
-
-	private func modelProcessing(_ hotel: Hotels?, result: (Bool) -> Void) {
-		guard let currentHotel = hotel else {
-			result(false)
+	private func modelProcessing(jsonModel: Hotels?, result: (Result<Bool, ProcessingError>) -> Void) {
+		guard let currentHotel = jsonModel else {
+			result(.failure(.errorProcessingModel))
 			return
 		}
 		self.hotel.id = currentHotel.id
 		self.hotel.name = currentHotel.adress.separate()
 		self.hotel.adress = currentHotel.adress
 		self.hotel.raiting = String(currentHotel.rating) + " " + currentHotel.ratingName
-		self.hotel.minimalPrice = centesimalInt(currentHotel.minimalPrice)
+		self.hotel.minimalPrice = centesimalInt(price: currentHotel.minimalPrice)
 		self.hotel.priceForIt = currentHotel.priceForIt.lowercased()
 
 		self.hotel.images = currentHotel.imageUrls
@@ -116,11 +84,49 @@ class HotelViewModel: ObservableObject {
 		self.hotelDescription.description = currentHotel.aboutTheHotel.description
 		self.hotelDescription.peculiarities = currentHotel.aboutTheHotel.peculiarities
 
-		result(true)
+		result(.success(true))
 	}
 
-	private func centesimalInt(_ number: Int) -> String {
-		let conv = "От " + number.centesimal() + " ₽"
+	private func centesimalInt(price: Int) -> String {
+		let conv = "От " + price.centesimal() + " ₽"
 		return conv
 	}
+
+	private func showErrorView(masssage: Error) {
+		print("Handle error! \(masssage.localizedDescription)")
+	}
 }
+/*
+
+
+ private func getData() {
+ let hotels: Hotels? = nil
+ self.requestData.getData(url: URLs.hotel.url) { [weak self] data, error in
+ guard let self = self else {
+ return
+ }
+ if error != "" {
+ print("Error - ", error)
+ }
+ guard let currentData = data else {
+ return
+ }
+ self.jsonManager.decodeJSON(data: currentData, model: hotels) { [weak self] json, error in
+ if error != "" {
+ print("Error - ", error)
+ }
+ guard let self = self else {
+ return
+ }
+ guard let currentJSON = json else {
+ return
+ }
+ self.modelProcessing(currentJSON) { result in
+ self.isLoad = result
+ }
+ }
+ }
+ }
+ */
+
+

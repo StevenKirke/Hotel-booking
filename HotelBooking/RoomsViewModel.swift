@@ -48,7 +48,7 @@ class RoomsViewModel: ObservableObject {
 			}
 		}
 	}
-
+	/*
 	private func getData() {
 		let rooms: Rooms = Rooms(rooms: [])
 		self.requestData.getData(url: URLs.nomer.url) { [weak self] data, error in
@@ -82,7 +82,7 @@ class RoomsViewModel: ObservableObject {
 			}
 		}
 	}
-
+	 */
 	private func modelProcessing(_ currentRoom: Room, result: (RoomTitle) -> Void) {
 
 		var room: RoomTitle = RoomTitle(id: 0, name: "", price: "", pricePer: "",

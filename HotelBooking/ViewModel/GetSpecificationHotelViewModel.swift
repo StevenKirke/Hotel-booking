@@ -76,7 +76,7 @@ class GetSpecificationHotelViewModel: ObservableObject {
 			returnModel(json)
 		}
 	}
-
+	/*
 	private func getData() {
 		let infoNumber: InfoMumber? = nil
 		self.requestData.getData(url: URLs.paid.url) { [weak self] data, error in
@@ -105,7 +105,7 @@ class GetSpecificationHotelViewModel: ObservableObject {
 			}
 		}
 	}
-
+	 */
 	private func modelProcessing<T: Decodable>(_ currentModel: T?, result: (Bool) -> Void) {
 		guard let temptModel = currentModel as? InfoMumber else {
 			return
