@@ -7,8 +7,7 @@
 
 import Foundation
 
-
-let MockHotel: String = """
+let mockHotel: String = """
 {
     "id": 1,
     "name": "Лучший пятизвездочный отель в Хургаде, Египет",
@@ -25,7 +24,10 @@ let MockHotel: String = """
         "https://storage.googleapis.com/jaz-prod/strapi/Golf_Court_7aff56564d/Golf_Court_7aff56564d.jpg"
     ],
     "about_the_hotel": {
-        "description": "Отель VIP-класса с собственными гольф полями. Высокий уровнь сервиса. Рекомендуем для респектабельного отдыха. Отель принимает гостей от 18 лет!",
+        "description": "
+					Отель VIP-класса с собственными гольф полями. Высокий уровнь сервиса.
+					Рекомендуем для респектабельного отдыха. Отель принимает гостей от 18 лет!
+					",
         "peculiarities": [
             "Бесплатный Wifi на всей территории отеля",
             "1 км до пляжа",

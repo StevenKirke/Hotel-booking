@@ -1,7 +1,4 @@
-
-
 import SwiftUI
-
 
 class ViewModel: ObservableObject {
     @Published var firstName = ""
@@ -35,7 +32,7 @@ enum NameFields: String {
 }
 
 struct ContentView: View {
-    @StateObject private var vm = ViewModel()
+    @StateObject private let currentVM = ViewModel()
 
     // Monitor focused state of text fields using this property
     @FocusState private var nameFields: NameFields?

@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct PhoneMumberFormatted {
 
 	var phoneNumber: String

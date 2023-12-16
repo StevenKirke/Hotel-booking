@@ -7,7 +7,7 @@
 
 import Foundation
 
-let MockInfoNumber: String = """
+let mockInfoNumber: String = """
 {
     "id": 1,
     "hotel_name": "Лучший пятизвездочный отель в Хургаде, Египет",

@@ -7,8 +7,7 @@
 
 import Foundation
 
-
-let MockTourists: String = """
+let mockTourists: String = """
  {
   "e_mail": "",
   "number_phone": "",

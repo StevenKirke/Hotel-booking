@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct RoomTitle {
     var id: Int
     var name: String

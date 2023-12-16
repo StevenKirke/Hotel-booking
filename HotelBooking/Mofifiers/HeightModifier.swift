@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-//extension Text {
+// extension Text {
 //    
 //    func customFont(_ size: CGFloat, _ weight: Font.Weight) -> some View {
 //        switch weight {
@@ -29,4 +29,4 @@ import SwiftUI
 //             .padding(.vertical, (lineWidth - font.lineHeight) / 2)
 //    }
 //
-//}
+// }

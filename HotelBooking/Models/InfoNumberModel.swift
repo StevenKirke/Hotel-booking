@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct InfoNumbers: Codable {
     let mumbers: [InfoMumber]
 }

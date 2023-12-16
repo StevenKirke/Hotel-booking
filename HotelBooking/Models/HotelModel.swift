@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct HotelTitle {
     var id: Int
     var name: String
@@ -44,5 +43,3 @@ struct AboutTheHotel: Codable {
     var description: String
     var peculiarities: [String]
 }
-
-

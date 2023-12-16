@@ -7,48 +7,39 @@
 
 import Foundation
 
-
 struct TouristData: Codable {
-    var eMail: String
-    var numberPhone: String
-    var tourists: [Tourist]
-    
-    enum CodingKeys: String, CodingKey {
-        case eMail = "e_mail"
-        case numberPhone = "number_phone"
-        case tourists
-    }
+	var eMail: String
+	var numberPhone: String
+	var tourists: [Tourist]
+
+	enum CodingKeys: String, CodingKey {
+		case eMail = "e_mail"
+		case numberPhone = "number_phone"
+		case tourists
+	}
 }
 
 struct Tourist: Codable {
-    var touristNumber: String
-    var isShow: Bool
-    var fields: [Field]
+	var touristNumber: String
+	var isShow: Bool
+	var fields: [Field]
 
-
-    enum CodingKeys: String, CodingKey {
-        case touristNumber = "tourist_number"
-        case isShow = "is_show"
-        case fields
-    }
+	enum CodingKeys: String, CodingKey {
+		case touristNumber = "tourist_number"
+		case isShow = "is_show"
+		case fields
+	}
 }
 
 struct Field: Codable {
-    var name: String
-    var meaning: String
-    var isEmpty: Bool
-    var pleaceHolder: String
+	var name: String
+	var meaning: String
+	var isEmpty: Bool
+	var pleaceHolder: String
 
-    enum CodingKeys: String, CodingKey {
-        case name, meaning
-        case isEmpty = "is_empty"
-        case pleaceHolder = "pleace_holder"
-    }
+	enum CodingKeys: String, CodingKey {
+		case name, meaning
+		case isEmpty = "is_empty"
+		case pleaceHolder = "pleace_holder"
+	}
 }
-
-
-//    var eMail: String
-//    var phoneNumber: String
-//        case isShow = "is_show"
-// case eMail = "e_mail"
-//          case phoneNumber = "phone_number"
