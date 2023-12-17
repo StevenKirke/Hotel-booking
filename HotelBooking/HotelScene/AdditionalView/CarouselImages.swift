@@ -7,10 +7,16 @@
 
 import SwiftUI
 
+/// Горизонтальный скролл изображении ``CartImageForHotel``, 
+/// с индикатором текущего элемента ``CircleIndicator``
+/// - Parameters:
+/// 	- images: Массив URL с изображениями
+/// 	- currentIndex: Текущий индекс, записывыает индекс отображаемого элемента из массива изображений
+/// - Note: Возврашает горизонтальный скролл с индекатором
 struct CarouselImages: View {
 
-	@State var currentIndex: Int = 0
 	@State var images: [String] = []
+	@State private var currentIndex: Int = 0
 
 	var body: some View {
 		ZStack(alignment: .bottom) {
@@ -19,7 +25,7 @@ struct CarouselImages: View {
 					HStack(spacing: 32) {
 						ForEach(images.indices, id: \.self) { index in
 							let image = images[index]
-							ImageHotel(currentIndex: $currentIndex,
+							CartImageForHotel(currentIndex: $currentIndex,
 									   image: image,
 									   index: index)
 							.modifier(OffsetsModefier(currentIndex: $currentIndex,
@@ -53,29 +59,7 @@ struct CarouselImages: View {
 	}
 }
 
-struct ImageHotel: View {
-
-	@Binding var currentIndex: Int
-
-	var image: String = ""
-	let index: Int
-	let width = UIScreen.main.bounds.width - 32
-
-	var height: CGFloat {
-		CGFloat(Int(width * (1 - 25 / 100)))
-	}
-
-	var body: some View {
-		CustomImage(image: image)
-			.frame(width: width, height: height)
-			.id("\(index)")
-			.mask({
-				RoundedRectangle(cornerRadius: 15)
-			})
-	}
-}
-
-struct CircleIndicator: View {
+private struct CircleIndicator: View {
 
 	@Binding var currentIndex: Int
 	let index: Int

@@ -19,7 +19,7 @@ struct PaidView: View {
 								   content: EmptyView()
 			)
 			PaidContent()
-			CustomTapBar(text: "Супер!", action: {
+			CustomTapBar(label: "Супер!", action: {
 				self.isMainView.toggle()
 			})
 		}

@@ -7,15 +7,20 @@
 
 import SwiftUI
 
+///  'CustomTapBar' Преназнаен для отображении кнопки в нижней части экрана
+/// - Parameters:
+/// 	- label: String, для передает название кнопки
+/// 	- action: Функция для навигации
+/// - Returns: Возвращает блок навигации с текстом и кнопкой для перехода на следующий экрна
 struct CustomTapBar: View {
 
-	var text: String = ""
+	var label: String = ""
 	var action: () -> Void
 
 	var body: some View {
 		HStack(alignment: .top, spacing: 0) {
 			Button(action: action) {
-				Text(text)
+				Text(label)
 					.modifier(HeightModifier(size: 16, lineHeight: 110, weight: .medium))
 					.tracking(0.1)
 					.foregroundColor(.white)
@@ -39,7 +44,7 @@ struct CustomTapBar: View {
 #if DEBUG
 struct CustomTapBar_Previews: PreviewProvider {
 	static var previews: some View {
-		CustomTapBar(text: "Text button", action: {})
+		CustomTapBar(label: "Text button", action: {})
 	}
 }
 #endif

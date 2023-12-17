@@ -7,16 +7,20 @@
 
 import SwiftUI
 
+/// Кнопка с оценкой
+/// - Parameters:
+/// 	- raiting: 'HotelModelEnum.DisplayModelHotel.raiting'
+/// - Returns: Возврашает блок 'View' c изображенем и текущим рейтинком отеля
 struct GradeElement: View {
 
-	var grade: String
+	var raiting: String
 
 	var body: some View {
 		HStack(alignment: .center, spacing: 2) {
 			Image(systemName: "star.fill")
 				.font(.system(size: 15))
 			Group {
-				Text(grade)
+				Text(raiting)
 					.modifier(HeightModifier(size: 16, lineHeight: 120, weight: .medium))
 			}
 		}
@@ -31,7 +35,7 @@ struct GradeElement: View {
 #if DEBUG
 struct GradeElement_Previews: PreviewProvider {
 	static var previews: some View {
-		GradeElement(grade: "5 Превосходно")
+		GradeElement(raiting: "5 Превосходно")
 	}
 }
 #endif

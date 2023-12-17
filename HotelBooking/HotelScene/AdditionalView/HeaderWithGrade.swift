@@ -1,40 +1,26 @@
 //
-//  CardHotel.swift
+//  HeaderWithGrade.swift
 //  HotelBooking
 //
-//  Created by Steven Kirke on 05.09.2023.
+//  Created by Steven Kirke on 17.12.2023.
 //
 
 import SwiftUI
 
-struct CardHotel: View {
+/// Крточка названия отеля с адресом и ценой
+/// - Parameters:
+/// 	- hotel: 'HotelModelEnum.DisplayModelHotel'
+/// 	- action: Функция для увеличения текущего рейтинга отеля
+/// - Note: Возврашает блок 'View' с описанием и ценой отеля и кнопкой оценки
+/// 		Дейсвие кнопки заблокировано!
+struct HeaderWithGrade: View {
 
-	@State var hotel: HotelTitle
-	@State var currentIndex: Int = 0
-
-	@State var isCardHotel: Bool = false
-
-	var body: some View {
-		VStack(spacing: 16) {
-			CarouselImages(images: hotel.images)
-			TitleWithGrade(hotel: $hotel, action: {})
-		}
-		.padding(.vertical, 16)
-		.background(
-			RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 12)
-				.fill(Color.white)
-		)
-	}
-}
-
-struct TitleWithGrade: View {
-
-	@Binding var hotel: HotelTitle
+	var hotel: HeaderDisplayModel
 	var action: () -> Void
 
 	var body: some View {
 		VStack(alignment: .leading, spacing: 8) {
-			GradeElement(grade: hotel.raiting)
+			GradeElement(raiting: hotel.raiting)
 			Text(hotel.name)
 				.modifier(HeightModifier(size: 22, lineHeight: 120, weight: .medium))
 				.lineLimit(2)
@@ -60,12 +46,3 @@ struct TitleWithGrade: View {
 		.padding(.horizontal, 16)
 	}
 }
-
-#if DEBUG
-struct CardHotel_Previews: PreviewProvider {
-
-	static var previews: some View {
-		MainView()
-	}
-}
-#endif

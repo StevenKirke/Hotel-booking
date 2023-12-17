@@ -7,39 +7,44 @@
 
 import SwiftUI
 
-// Работа с потоками 'View'
-protocol IAppCoordinator: AnyObject, ObservableObject {
-	func showHotel()
-	func showRooms()
-	func showRoom()
-	func showPaid()
-}
-
-final class AppCoordinator: IAppCoordinator {
-
+final class AppCoordinator: ObservableObject {
 	// MARK: - Public properties
 	@Published var path = NavigationPath()
-	@Published var currentPage: Pages = .hotel
+	@Published var currentScene: Scenes = .hotel
 
 	// MARK: - Public methods
-	func showHotel() {
+	func showHotelScene() {
 		path.removeLast(path.count)
 	}
 
-	func showRooms() {
-		path.append(Pages.rooms)
+	func showRoomsScene() {
+		path.append(Scenes.rooms)
 	}
 
-	func showRoom() {
-		path.append(Pages.room)
+	func showRoomScene() {
+		path.append(Scenes.room)
 	}
 
-	func showPaid() {
-		path.append(Pages.pair)
+	func showPaidScene() {
+		path.append(Scenes.pair)
+	}
+
+	@ViewBuilder
+	func getPage(scenes: Scenes) -> some View {
+		switch scenes {
+		case .hotel:
+			HotelView()
+		case .rooms:
+			RoomsView(isMainView: .constant(false), nameHotel: "")
+		case .room:
+			BookingView(isMainView: .constant(false), idRoom: 0)
+		case .pair:
+			PaidView(isMainView: .constant(false))
+		}
 	}
 }
 
-enum Pages: String, CaseIterable, Identifiable {
+enum Scenes: String, CaseIterable, Identifiable {
 	case hotel
 	case rooms
 	case room

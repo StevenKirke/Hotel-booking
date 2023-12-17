@@ -14,17 +14,8 @@ enum ProcessingError: Error {
 final class HotelViewModel: ObservableObject {
 
 	// MARK: - Public properties
-	@Published var isLoad: Bool = false
-	@Published var hotelDescription: AboutTheHotel = AboutTheHotel(description: "", peculiarities: [])
-	@Published var hotel: HotelTitle = HotelTitle(
-		id: 0,
-		name: "",
-		adress: "",
-		minimalPrice: "",
-		raiting: "",
-		priceForIt: "",
-		images: []
-	)
+	@Published var isLoadData: Bool = false
+	@Published var displayHotelModel: HotelModelEnum.DisplayModelHotel?
 
 	// MARK: - Dependencies
 	private let requestData: RequestData = RequestData()
@@ -37,59 +28,61 @@ final class HotelViewModel: ObservableObject {
 		self.getHotelData()
 	}
 
-	// MARK: - Lifecycle
-
 	// MARK: - Public methods
 	func getHotelData() {
-		if !isLoad {
+		if !isLoadData {
 			self.getMock()
 		}
 	}
 
 	// MARK: - Private methods
 	private func getMock() {
-		let hotels: Hotels? = nil
+		let hotels: HotelModel? = nil
 		let currentData = Data(mockHotel.utf8)
-		self.jsonManager.decodeJSON(data: currentData, model: hotels) { result in
+
+		self.jsonManager.decodeJSON(data: currentData, model: hotels) { [weak self] result  in
+			guard let self = self else { return }
 			if case let .success(jsonModel) = result {
-				self.modelProcessing(jsonModel: jsonModel) { processingModel in
-					if case let .success(model) = processingModel {
-						self.isLoad = true
-					}
-					if case let .failure(error) = processingModel {
-						self.showErrorView(masssage: error)
-					}
-				}
+				self.modelProcessing(jsonModel: jsonModel)
+				self.isLoadData = true
 			}
 			if case let .failure(error) = result {
 				self.showErrorView(masssage: error)
 			}
 		}
 	}
+}
 
-	private func modelProcessing(jsonModel: Hotels?, result: (Result<Bool, ProcessingError>) -> Void) {
-		guard let currentHotel = jsonModel else {
-			result(.failure(.errorProcessingModel))
+// Processing fields for the 'displayHotelModel'
+private extension HotelViewModel {
+
+	private func modelProcessing(jsonModel: HotelModel?) {
+		guard let currentModel = jsonModel else {
 			return
 		}
-		self.hotel.id = currentHotel.id
-		self.hotel.name = currentHotel.adress.separate()
-		self.hotel.adress = currentHotel.adress
-		self.hotel.raiting = String(currentHotel.rating) + " " + currentHotel.ratingName
-		self.hotel.minimalPrice = centesimalInt(price: currentHotel.minimalPrice)
-		self.hotel.priceForIt = currentHotel.priceForIt.lowercased()
 
-		self.hotel.images = currentHotel.imageUrls
-
-		self.hotelDescription.description = currentHotel.aboutTheHotel.description
-		self.hotelDescription.peculiarities = currentHotel.aboutTheHotel.peculiarities
-
-		result(.success(true))
+		self.displayHotelModel = HotelModelEnum.DisplayModelHotel(
+			id: currentModel.id,
+			name: currentModel.name,
+			adress: currentModel.adress,
+			minimalPrice: centesimalInt(price: currentModel.minimalPrice),
+			raiting: assamblyRaiting(raiting: currentModel.rating, raitingName: currentModel.ratingName),
+			priceForIt: currentModel.priceForIt.lowercased(),
+			imageURL: currentModel.imageUrls,
+			aboutTheHotel: HotelModelEnum.DisplayModelHotel.DisplayAboutHotel(
+				description: currentModel.aboutTheHotel.description,
+				peculiarities: currentModel.aboutTheHotel.peculiarities
+			)
+		)
 	}
 
 	private func centesimalInt(price: Int) -> String {
 		let conv = "От " + price.centesimal() + " ₽"
 		return conv
+	}
+
+	private func assamblyRaiting(raiting: Int, raitingName: String) -> String {
+		"\(raiting) \(raitingName)"
 	}
 
 	private func showErrorView(masssage: Error) {
@@ -128,5 +121,3 @@ final class HotelViewModel: ObservableObject {
  }
  }
  */
-
-

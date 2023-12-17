@@ -7,7 +7,13 @@
 
 import SwiftUI
 
+///  'NavigationTabBar' отображает название и кнопку назад для навигации в верхней части экрана
+/// - Parameters:
+/// 	- label: Название блока
+/// 	- content: Принимает кнопку или 'EmptyView()'
+/// - Note: Возвращает блок навигации с текстом и кнопкой Назад
 struct CustomNavigationTabBar<Content: View>: View {
+
 	var label: String = ""
 	var content: Content
 

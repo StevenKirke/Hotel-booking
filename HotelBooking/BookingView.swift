@@ -71,7 +71,7 @@ struct BookingView: View {
 					}
 					if specification.isLoadDesc {
 						let assambly = "Оплатить " + specification.totalPrice.totalPrice
-						CustomTapBar(text: assambly, action: {
+						CustomTapBar(label: assambly, action: {
 							self.isPairView.toggle()
 						})
 						.navigationDestination(isPresented: $isPairView) {
@@ -115,7 +115,7 @@ struct HeaderBooking: View {
 
 	var body: some View {
 		VStack(alignment: .leading, spacing: 8) {
-			GradeElement(grade: info.rating)
+			GradeElement(raiting: info.rating)
 			Text(info.hotelName)
 				.modifier(HeightModifier(size: 22, lineHeight: 120, weight: .medium))
 				.lineLimit(2)

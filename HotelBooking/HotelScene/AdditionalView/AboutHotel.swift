@@ -7,10 +7,15 @@
 
 import SwiftUI
 
+typealias DescriptionDisplayModel = HotelModelEnum.DisplayModelHotel.DisplayAboutHotel
+
+///  'AboutHotel' Блок отображает описание отеля с с кнопками и облаком тегов ``TagCloudView``
+/// - Parameters:
+/// 	- hotelDescroption: 'DisplayModelHotel'
+/// - Note:
 struct AboutHotel: View {
 
-	@State var hotelDescroption: AboutTheHotel
-	@Binding var isMainView: Bool
+	@State var hotelDescroption: DescriptionDisplayModel
 
 	var body: some View {
 		VStack(alignment: .leading, spacing: 16) {
@@ -51,7 +56,9 @@ struct RangeServices: View {
 			ForEach(RangeServicesButtons.allCases, id: \.self) { item in
 				ButtonServices(widthSeparator: $widthSeparator, action: {}, service: item)
 				if item != RangeServicesButtons.allCases.last {
-
+					RoundedRectangle(cornerRadius: 1)
+						.fill(Color.red)
+						.frame(maxWidth: .infinity, maxHeight: 2)
 				}
 			}
 		}
@@ -108,7 +115,7 @@ struct ButtonServices: View {
 #if DEBUG
 struct AboutHotel_Previews: PreviewProvider {
 	static var previews: some View {
-		MainView()
+		HotelView()
 	}
 }
 #endif
