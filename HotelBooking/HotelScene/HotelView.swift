@@ -8,26 +8,26 @@
 import SwiftUI
 
 struct HotelView: View {
-	@ObservedObject var hotelVM: HotelViewModel = HotelViewModel()
+	@ObservedObject var hotelVM: HotelViewModel = HotelViewModel(networkService: NetworkRequest())
 	@State var isMainView: Bool = false
 	// Connect safeArea, secure safe areas
 
 	var body: some View {
 		NavigationStack {
-			if hotelVM.isLoadData {
-				VStack(spacing: 0) {
-					CustomNavigationTabBar(label: "Отель", content: EmptyView())
-					AssamblyHotelView(hotelVM: hotelVM)
-					CustomTapBar(label: "К выбору номера", action: actionButton)
+			ZStack {
+				Color.ColorF6F6F9
+				if hotelVM.isLoadData {
+					VStack(spacing: 0) {
+						CustomNavigationTabBar(label: "Отель", content: EmptyView())
+						AssamblyHotelView(isMainView: $isMainView, hotelVM: hotelVM)
+						CustomTapBar(label: "К выбору номера", action: actionButton)
+					}
 				}
-				.edgesIgnoringSafeArea(.all)
 			}
+			.edgesIgnoringSafeArea(.all)
 		}
 		.navigationBarTitle("", displayMode: .inline)
 		.navigationBarBackButtonHidden(true)
-		.navigationDestination(isPresented: $isMainView) {
-			//RoomsView(isMainView: $isMainView, nameHotel: $hotelVM.hotel.name)
-		}
 	}
 }
 
@@ -47,6 +47,7 @@ private extension HotelView {
 /// 		названием, ценой и описанием отеля
 private struct AssamblyHotelView: View {
 
+	@Binding var isMainView: Bool
 	var hotelVM: HotelViewModel
 
 	var body: some View {
@@ -58,6 +59,11 @@ private struct AssamblyHotelView: View {
 		}
 		.mask {
 			RoundedCornersShape(corners: [.bottomLeft, .bottomRight], radius: 12)
+		}
+		.navigationDestination(isPresented: $isMainView) {
+			if let cropAdress =  hotelVM.displayHotelModel?.cropAdress {
+				RoomsView(isMainView: $isMainView, nameHotel: cropAdress)
+			}
 		}
 	}
 }

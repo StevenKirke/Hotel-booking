@@ -14,7 +14,7 @@ struct RoomsView: View {
 
 	@Binding var isMainView: Bool
 
-	var nameHotel: String
+	let nameHotel: String
 
 	var body: some View {
 		VStack(spacing: 0) {

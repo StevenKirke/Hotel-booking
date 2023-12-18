@@ -37,7 +37,7 @@ struct CustomTapBar: View {
 		.overlay(
 			Rectangle()
 				.frame(width: nil, height: 1, alignment: .top)
-				.foregroundColor(Color.customRed), alignment: .top)
+				.foregroundColor(Color.grayE8E9EC), alignment: .top)
 	}
 }
 

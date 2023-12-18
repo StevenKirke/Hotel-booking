@@ -40,6 +40,7 @@ enum HotelModelEnum {
 		var id: Int
 		var name: String
 		var adress: String
+		var cropAdress: String
 		var minimalPrice: String
 		var raiting: String
 		var priceForIt: String

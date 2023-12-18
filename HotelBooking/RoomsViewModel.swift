@@ -9,7 +9,6 @@ import Foundation
 
 class RoomsViewModel: ObservableObject {
 
-	private let requestData: RequestData = RequestData()
 	private let jsonManager: DecodeJson = DecodeJson()
 
 	@Published var isLoadRoom: Bool = false
@@ -28,24 +27,23 @@ class RoomsViewModel: ObservableObject {
 	private func getMock() {
 		let rooms: Rooms = Rooms(rooms: [])
 		let currentData = Data(mockRooms.utf8)
-		self.jsonManager.decodeJSON(data: currentData, model: rooms) { [weak self] json, error in
-			guard let self = self else {
-				return
+		self.jsonManager.decodeJSON(data: currentData, model: rooms) { [weak self] result in
+			guard let self = self else { return }
+			if case let .success(jsonModel) = result {
+				//print("jsonModel \(jsonModel)")
 			}
-			if error != "" {
-				print("Error - ", error)
+			if case let .failure(error) = result {
+
 			}
-			guard let currentJSON = json else {
-				return
-			}
-			if !currentJSON.rooms.isEmpty {
-				currentJSON.rooms.forEach { room in
-					self.modelProcessing(room) { result in
-						self.room.append(result)
-					}
-				}
-				self.isLoadRoom = true
-			}
+
+//			if !currentJSON.rooms.isEmpty {
+//				currentJSON.rooms.forEach { room in
+//					self.modelProcessing(room) { result in
+//						self.room.append(result)
+//					}
+//				}
+//				self.isLoadRoom = true
+//			}
 		}
 	}
 	/*

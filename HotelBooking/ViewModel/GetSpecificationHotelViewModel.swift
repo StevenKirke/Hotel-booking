@@ -30,7 +30,7 @@ struct TotalPrice {
 
 class GetSpecificationHotelViewModel: ObservableObject {
 
-	private let requestData: RequestData = RequestData()
+	//private let requestData: NetworkRequest = NetworkRequest()
 	private let jsonManager: DecodeJson = DecodeJson()
 
 	@Published var isLoadDesc: Bool = false
@@ -69,12 +69,12 @@ class GetSpecificationHotelViewModel: ObservableObject {
 
 	private func getMock<T: Decodable>(mock: String, model: T, returnModel: @escaping (T?) -> Void) {
 		let currentData = Data(mock.utf8)
-		self.jsonManager.decodeJSON(data: currentData, model: model) { json, error in
-			if error != "" {
-				print("Error - ", error)
-			}
-			returnModel(json)
-		}
+//		self.jsonManager.decodeJSON(data: currentData, model: model) { json, error in
+//			if error != "" {
+//				print("Error - ", error)
+//			}
+//			returnModel(json)
+//		}
 	}
 	/*
 	private func getData() {
