@@ -7,10 +7,6 @@
 
 import Foundation
 
-enum ProcessingError: Error {
-	case errorProcessingModel
-}
-
 final class HotelViewModel: ObservableObject {
 
 	// MARK: - Public properties
@@ -28,8 +24,8 @@ final class HotelViewModel: ObservableObject {
 		self.getHotelData()
 	}
 
-	// MARK: - Public methods
-	func getHotelData() {
+	// MARK: - Private methods
+	private func getHotelData() {
 		if !isLoadData {
 			self.fetchData()
 		}
@@ -39,7 +35,7 @@ final class HotelViewModel: ObservableObject {
 // Запрос к сети или к mock-файлу
 private extension HotelViewModel {
 	private func fetchData() {
-		var model: HotelModel?
+		var model: HotelModelEnum.Responce.HotelModel?
 		networkService.getData(url: URLs.hotel.url, model: model) { [weak self] result in
 			guard let self = self else { return }
 
@@ -57,10 +53,8 @@ private extension HotelViewModel {
 // Преобразование модели Responce.HotelModel в DisplayModelHotel
 private extension HotelViewModel {
 
-	private func modelProcessing(jsonModel: HotelModel?) {
-		guard let currentModel = jsonModel else {
-			return
-		}
+	private func modelProcessing(jsonModel: HotelModelEnum.Responce.HotelModel?) {
+		guard let currentModel = jsonModel else { return }
 
 		self.displayHotelModel = HotelModelEnum.DisplayModelHotel(
 			id: currentModel.id,
@@ -71,7 +65,7 @@ private extension HotelViewModel {
 			raiting: assamblyRaiting(raiting: currentModel.rating, raitingName: currentModel.ratingName),
 			priceForIt: currentModel.priceForIt.lowercased(),
 			imageURL: currentModel.imageUrls,
-			aboutTheHotel: HotelModelEnum.DisplayModelHotel.DisplayAboutHotel(
+			aboutTheHotel: HotelModelEnum.AboutHotel(
 				description: currentModel.aboutTheHotel.description,
 				peculiarities: currentModel.aboutTheHotel.peculiarities
 			)
@@ -80,8 +74,7 @@ private extension HotelViewModel {
 	}
 
 	private func centesimalInt(price: Int) -> String {
-		let conv = "От " + price.centesimal() + " ₽"
-		return conv
+		"От " + price.centesimal() + " ₽"
 	}
 
 	private func assamblyRaiting(raiting: Int, raitingName: String) -> String {

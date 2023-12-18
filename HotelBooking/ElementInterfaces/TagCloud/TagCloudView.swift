@@ -10,7 +10,6 @@ import SwiftUI
 struct TagCloudView: View {
 
 	private let tagCloud: TagCloud = TagCloud()
-
 	var array: [String] = []
 
 	var body: some View {
@@ -26,7 +25,7 @@ struct TagCloudView: View {
 	}
 }
 
-struct TagElement: View {
+private struct TagElement: View {
 
 	let text: String
 

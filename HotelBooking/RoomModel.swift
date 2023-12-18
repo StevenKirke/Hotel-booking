@@ -7,31 +7,39 @@
 
 import Foundation
 
-struct RoomTitle {
-    var id: Int
-    var name: String
-    var price: String
-    var pricePer: String
-    var peculiarities: [String]
-    var images: [String]
-}
+// swiftlint:disable nesting
+enum RoomModel {
 
-struct Rooms: Codable {
-    let rooms: [Room]
-}
+	struct Responce {
+		var responceResult: Result<[Rooms], Error>
+	}
 
-struct Room: Codable {
-    let id: Int
-    let name: String
-    let price: Int
-    let pricePer: String
-    let peculiarities: [String]
-    let imageUrls: [String]
+	struct Rooms: Codable {
+		let rooms: [Room]
+	}
 
-    enum CodingKeys: String, CodingKey {
-        case id, name, price
-        case pricePer = "price_per"
-        case peculiarities
-        case imageUrls = "image_urls"
-    }
+	struct Room: Codable {
+		let id: Int
+		let name: String
+		let price: Int
+		let pricePer: String
+		let peculiarities: [String]
+		let imageUrls: [String]
+
+		enum CodingKeys: String, CodingKey {
+			case id, name, price
+			case pricePer = "price_per"
+			case peculiarities
+			case imageUrls = "image_urls"
+		}
+	}
+
+	struct DisplayModelRoom {
+		let id: Int
+		let name: String
+		let price: String
+		let pricePer: String
+		let peculiarities: [String]
+		let images: [String]
+	}
 }

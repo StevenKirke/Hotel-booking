@@ -12,7 +12,6 @@ struct CustomImage: View {
 	let image: String
 
 	var body: some View {
-
 		AsyncImage(url: URL(string: image)) { phase in
 			switch phase {
 			case .empty:
@@ -24,12 +23,10 @@ struct CustomImage: View {
 			case .failure:
 				Image(systemName: "photo")
 					.resizable()
-					.foregroundColor(.black.opacity(0.2))
-					.background(Color.black.opacity(0.1))
+					.foregroundColor(.black.opacity(0.15))
 			@unknown default:
 				Image(systemName: "photo")
 					.resizable()
-					.foregroundColor(.black.opacity(0.2))
 			}
 		}
 	}

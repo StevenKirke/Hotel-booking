@@ -7,95 +7,62 @@
 
 import Foundation
 
-class RoomsViewModel: ObservableObject {
+final class RoomsViewModel: ObservableObject {
 
-	private let jsonManager: DecodeJson = DecodeJson()
-
+	// MARK: - Public properties
 	@Published var isLoadRoom: Bool = false
-	@Published var room: [RoomTitle] = []
+	@Published var displayHRoom: [RoomModel.DisplayModelRoom] = []
 
-	init() {
+	// MARK: - Dependencies
+	private let networkService: INetworkRequest
 
+	// MARK: - Initializator
+	init(networkService: INetworkRequest) {
+		self.networkService = networkService
 	}
 
-	func getRoom() {
+	// MARK: - Private methods
+	func getRoomData() {
 		if !isLoadRoom {
-			self.getMock()
+			self.fetchData()
 		}
 	}
+}
 
-	private func getMock() {
-		let rooms: Rooms = Rooms(rooms: [])
-		let currentData = Data(mockRooms.utf8)
-		self.jsonManager.decodeJSON(data: currentData, model: rooms) { [weak self] result in
-			guard let self = self else { return }
-			if case let .success(jsonModel) = result {
-				//print("jsonModel \(jsonModel)")
+// Запрос к сети или к mock-файлу
+private extension RoomsViewModel {
+	private func fetchData() {
+		var model: RoomModel.Rooms?
+		networkService.getData(url: URLs.rooms.url, model: model) { result in
+			if case let .success(json) = result {
+				self.modelProcessing(jsonModel: json)
 			}
 			if case let .failure(error) = result {
-
-			}
-
-//			if !currentJSON.rooms.isEmpty {
-//				currentJSON.rooms.forEach { room in
-//					self.modelProcessing(room) { result in
-//						self.room.append(result)
-//					}
-//				}
-//				self.isLoadRoom = true
-//			}
-		}
-	}
-	/*
-	private func getData() {
-		let rooms: Rooms = Rooms(rooms: [])
-		self.requestData.getData(url: URLs.nomer.url) { [weak self] data, error in
-			guard let self = self else {
-				return
-			}
-			if error != "" {
-				print("Error - ", error)
-			}
-			guard let currentData = data else {
-				return
-			}
-			self.jsonManager.decodeJSON(data: currentData, model: rooms) { [weak self] json, error in
-				if error != "" {
-					print("Error - ", error)
-				}
-				guard let self = self else {
-					return
-				}
-				guard let currentJSON = json else {
-					return
-				}
-				if !currentJSON.rooms.isEmpty {
-					currentJSON.rooms.forEach { room in
-						self.modelProcessing(room) { result in
-							self.room.append(result)
-						}
-					}
-					self.isLoadRoom = true
-				}
+				print("error \(error)")
 			}
 		}
 	}
-	 */
-	private func modelProcessing(_ currentRoom: Room, result: (RoomTitle) -> Void) {
+}
 
-		var room: RoomTitle = RoomTitle(id: 0, name: "", price: "", pricePer: "",
-										peculiarities: [], images: [])
+// Преобразование модели Responce.Rooms в DisplayModelRoom
+private extension RoomsViewModel {
+	private func modelProcessing(jsonModel: RoomModel.Rooms?) {
+		guard let currentModel = jsonModel else { return }
 
-		room.id = currentRoom.id
-		room.name = currentRoom.name
-		room.price = centesimalInt(currentRoom.price)
-		room.pricePer = currentRoom.pricePer
-		room.peculiarities = currentRoom.peculiarities
-		room.images = currentRoom.imageUrls
-		result(room)
+		self.displayHRoom = currentModel.rooms.map { room in
+			RoomModel.DisplayModelRoom(
+				id: room.id,
+				name: room.name,
+				price: centesimalInt(price: room.price),
+				pricePer: room.pricePer,
+				peculiarities: room.peculiarities,
+				images: room.imageUrls
+			)
+		}
+		self.isLoadRoom = true
 	}
 
-	private func centesimalInt(_ number: Int) -> String {
-		number.centesimal() + " ₽"
+	private func centesimalInt(price: Int) -> String {
+		price.centesimal() + " ₽"
 	}
 }

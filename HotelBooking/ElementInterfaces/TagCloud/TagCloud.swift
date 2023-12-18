@@ -13,7 +13,7 @@ struct Tag: Identifiable, Hashable {
 	var size: CGFloat = 0
 }
 
-class TagCloud {
+final class TagCloud {
 
 	let fontSize: CGFloat = 16
 
@@ -34,7 +34,6 @@ class TagCloud {
 	}
 
 	private func getRow(_ tags: [Tag], responseTag: @escaping ([[Tag]]) -> Void) {
-
 		var rows: [[Tag]] = []
 		var currentRow: [Tag] = []
 		var totalWidth: CGFloat = 0

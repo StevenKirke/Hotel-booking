@@ -9,8 +9,9 @@ import SwiftUI
 
 struct RoomsView: View {
 
-	@Environment(\.presentationMode) var returnMainView: Binding<PresentationMode>
-	@ObservedObject var roomsVM: RoomsViewModel = RoomsViewModel()
+	@Environment(\.presentationMode) var returnHotelView: Binding<PresentationMode>
+
+	@ObservedObject var roomsVM: RoomsViewModel = RoomsViewModel(networkService: NetworkRequest())
 
 	@Binding var isMainView: Bool
 
@@ -20,20 +21,20 @@ struct RoomsView: View {
 		VStack(spacing: 0) {
 			CustomNavigationTabBar(label: nameHotel, content:
 									ButtonForNavigationTabBar(action: {
-				self.returnMainView.wrappedValue.dismiss()
+				self.returnHotelView.wrappedValue.dismiss()
 			})
 			)
-			ScrollView(.vertical, showsIndicators: false) {
-				VStack(spacing: 8) {
-					ForEach(roomsVM.room.indices, id: \.self) { index in
-						if roomsVM.isLoadRoom {
-							HotelHumberCard(
-								room: roomsVM.room[index],
-								isMainView: $isMainView
-							)
+			if roomsVM.isLoadRoom {
+				ScrollView(.vertical, showsIndicators: false) {
+					VStack(spacing: 8) {
+						ForEach(roomsVM.displayHRoom.indices, id: \.self) { index in
+							RoomCard(isMainView: $isMainView, room: roomsVM.displayHRoom[index])
 						}
 					}
 				}
+			} else {
+				// Добавить sceleton View
+				Spacer()
 			}
 		}
 		.background(Color.ColorF6F6F9)
@@ -41,17 +42,21 @@ struct RoomsView: View {
 		.navigationBarTitle("", displayMode: .inline)
 		.navigationBarBackButtonHidden(true)
 		.onAppear {
-			self.roomsVM.getRoom()
+			roomsVM.getRoomData()
 		}
 	}
 }
 
-struct HotelHumberCard: View {
-
-	var room: RoomTitle
+///  'RoomCard' Карточка комнаты``TagCloudView``
+/// - Parameters:
+/// 	- hotelDescroption: 'DisplayModelHotel'
+/// - Note:
+private struct RoomCard: View {
 
 	@State var isNumberView: Bool = false
 	@Binding var isMainView: Bool
+
+	var room: RoomModel.DisplayModelRoom
 
 	var body: some View {
 		VStack(spacing: 8) {

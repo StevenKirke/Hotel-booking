@@ -8,7 +8,22 @@
 import Foundation
 
 protocol IDecodeJSON {
+	/// Декодирование 'Data'
+	///
+	/// - Parameters:
+	///   - data: Data
+	///   - model: Модель для декодирования, структура подписанная на Decodable
+	///
+	/// - Returns:
+	/// 	Возвращает Result, мотель или ошибку
 	func decodeJSON<T: Decodable>(data: Data, model: T, returnJSON: @escaping (Result<T, ErrorResponce>) -> Void)
+	/// Декодирование 'Data'
+	///
+	/// - Parameters:
+	///   - model: Модель для кодирования, структура подписанная на Decodable
+	///
+	/// - Returns:
+	/// 	Возвращает Result, Data - опционал или ошибку
 	func encodeJSON<T: Encodable>(models: T, returnData: @escaping (Result<Data?, ErrorResponce>) -> Void)
 }
 

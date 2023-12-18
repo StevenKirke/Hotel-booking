@@ -54,7 +54,7 @@ private struct AssamblyHotelView: View {
 		ScrollView(.vertical, showsIndicators: false) {
 			if let headerHotel = hotelVM.displayHotelModel {
 				HeaderHotel(headerHotel: headerHotel)
-				AboutHotel(hotelDescroption: headerHotel.aboutTheHotel)
+				AboutHotel(hotelDescroption: headerHotel)
 			}
 		}
 		.mask {

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-typealias DescriptionDisplayModel = HotelModelEnum.DisplayModelHotel.DisplayAboutHotel
+typealias DescriptionDisplayModel = HotelModelEnum.DisplayModelHotel
 
 ///  'AboutHotel' Блок отображает описание отеля с с кнопками и облаком тегов ``TagCloudView``
 /// - Parameters:
@@ -15,7 +15,7 @@ typealias DescriptionDisplayModel = HotelModelEnum.DisplayModelHotel.DisplayAbou
 /// - Note:
 struct AboutHotel: View {
 
-	@State var hotelDescroption: DescriptionDisplayModel
+	var hotelDescroption: DescriptionDisplayModel
 
 	var body: some View {
 		VStack(alignment: .leading, spacing: 16) {
@@ -24,11 +24,11 @@ struct AboutHotel: View {
 				.frame(maxWidth: .infinity, alignment: .leading)
 				.foregroundColor(.black)
 			VStack(spacing: 0) {
-				TagCloudView(array: hotelDescroption.peculiarities)
+				TagCloudView(array: hotelDescroption.aboutTheHotel.peculiarities)
 			}
 			.padding(.bottom, -2)
 			HStack(alignment: .center, spacing: 0) {
-				Text(hotelDescroption.description)
+				Text(hotelDescroption.aboutTheHotel.description)
 					.foregroundColor(.black90)
 					.multilineTextAlignment(.leading)
 					.modifier(HeightModifier(size: 16,

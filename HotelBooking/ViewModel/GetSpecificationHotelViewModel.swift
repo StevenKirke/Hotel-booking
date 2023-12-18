@@ -30,7 +30,6 @@ struct TotalPrice {
 
 class GetSpecificationHotelViewModel: ObservableObject {
 
-	//private let requestData: NetworkRequest = NetworkRequest()
 	private let jsonManager: DecodeJson = DecodeJson()
 
 	@Published var isLoadDesc: Bool = false
