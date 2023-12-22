@@ -9,7 +9,6 @@ import Foundation
 
 // swiftlint:disable nesting
 enum RoomModel {
-
 	struct Responce {
 		var responceResult: Result<[Rooms], Error>
 	}
@@ -43,3 +42,4 @@ enum RoomModel {
 		let images: [String]
 	}
 }
+// swiftlint:enable nesting

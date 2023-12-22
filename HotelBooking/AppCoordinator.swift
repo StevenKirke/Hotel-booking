@@ -37,7 +37,7 @@ final class AppCoordinator: ObservableObject {
 		case .rooms:
 			RoomsView(isMainView: .constant(false), nameHotel: "")
 		case .room:
-			BookingView(isMainView: .constant(false), idRoom: 0)
+			BookingView(isMainView: .constant(false))
 		case .pair:
 			PaidView(isMainView: .constant(false))
 		}

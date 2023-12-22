@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CardTourist: View {
+struct CardBooking: View {
 
 	let title: String
 	var isShowRemove: Bool = false
@@ -106,7 +106,7 @@ struct CardTourist: View {
 	}
 }
 
-extension CardTourist {
+extension CardBooking {
 
 	private func showCart() {
 		DispatchQueue.main.async {
@@ -149,12 +149,12 @@ struct TextFieldForTouristWithPlaceholder: View {
 			Text(placeHolder)
 				.modifier(HeightModifier(size: 12, lineHeight: 120, weight: .regular))
 				.tracking(0.1)
-				.foregroundColor(.customRed)
+				.foregroundColor(.customOmbreGray)
 			TextField("", text: $textField)
 				.focused($focus, equals: currentField)
 				.modifier(HeightModifier(size: 16, lineHeight: 110, weight: .regular))
 				.tracking(0.075)
-				.foregroundColor(.customRed)
+				.foregroundColor(.customDarkBlue)
 				.textContentType(.name)
 				.tint(Color.black)
 				.keyboardType(type)
@@ -274,7 +274,7 @@ struct AddCardTourist: View {
 #if DEBUG
 struct CardTourist_Previews: PreviewProvider {
 	static var previews: some View {
-		BookingView(isMainView: .constant(false), idRoom: 0)
+		BookingView(isMainView: .constant(false))
 	}
 }
 #endif

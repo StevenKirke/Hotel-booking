@@ -2,17 +2,19 @@
 //  ContactsView.swift
 //  HotelBooking
 //
-//  Created by Steven Kirke on 07.10.2023.
+//  Created by Steven Kirke on 20.12.2023.
 //
 
 import SwiftUI
 
+typealias ContactListDisplay = BuyerInformation.Contact
+
 struct ContactsView: View {
 
-	var contactList: [Contact]
+	var contactList: [ContactListDisplay]
 
 	@Binding var phone: String
-	@Binding var showingOptions: Bool
+	@Binding var isShowContact: Bool
 
 	var body: some View {
 		VStack(spacing: 10) {
@@ -29,12 +31,6 @@ struct ContactsView: View {
 						.frame(width: 24, height: 24)
 						.foregroundColor(.black)
 				})
-				Button(action: {}, label: {
-					Image.closeSquare
-						.resizable()
-						.frame(width: 24, height: 24)
-						.foregroundColor(.black)
-				})
 			}
 			.padding(.horizontal, 16)
 			.padding(.top, 16)
@@ -42,10 +38,7 @@ struct ContactsView: View {
 				ForEach(contactList.indices, id: \.self) { list in
 					let contact = contactList[list]
 					Button(action: {
-						DispatchQueue.main.async {
-							self.phone = contact.mask
-							self.closeActionView()
-						}
+						self.addContact(contact: contact)
 					}, label: {
 						HStack(spacing: 0) {
 							Text(contact.name)
@@ -72,7 +65,6 @@ struct ContactsView: View {
 			.cornerRadius(15)
 		}
 		.background(Color.white)
-
 	}
 
 	@ViewBuilder
@@ -83,9 +75,17 @@ struct ContactsView: View {
 			.offset(x: -15)
 	}
 
+	private func addContact(contact: ContactListDisplay) {
+		DispatchQueue.main.async {
+			self.phone = contact.number
+			print("phone  \(self.phone )")
+			self.closeActionView()
+		}
+	}
+
 	private func closeActionView() {
 		DispatchQueue.main.async {
-			self.showingOptions.toggle()
+			self.isShowContact.toggle()
 		}
 	}
 }
@@ -96,7 +96,7 @@ struct ContactsView_Previews: PreviewProvider {
 	static var previews: some View {
 		ContactsView(contactList: [],
 					 phone: .constant(""),
-					 showingOptions: .constant(false))
+					 isShowContact: .constant(false))
 	}
 }
 #endif

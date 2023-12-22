@@ -7,6 +7,19 @@
 
 import Foundation
 
+enum BuyerInformation {
+
+	struct DispayModelBuyer {
+		var contact: [Contact]
+	}
+
+	struct Contact {
+		let name: String
+		let number: String
+		let mask: String
+	}
+}
+
 struct TouristData: Codable {
 	var eMail: String
 	var numberPhone: String

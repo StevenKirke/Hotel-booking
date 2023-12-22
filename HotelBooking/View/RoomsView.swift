@@ -19,10 +19,9 @@ struct RoomsView: View {
 
 	var body: some View {
 		VStack(spacing: 0) {
-			CustomNavigationTabBar(label: nameHotel, content:
-									ButtonForNavigationTabBar(action: {
-				self.returnHotelView.wrappedValue.dismiss()
-			})
+			CustomNavigationTabBar(
+				label: nameHotel,
+				content: ButtonForNavigationTabBar(action: { returnHotelSceneView() })
 			)
 			if roomsVM.isLoadRoom {
 				ScrollView(.vertical, showsIndicators: false) {
@@ -33,7 +32,7 @@ struct RoomsView: View {
 					}
 				}
 			} else {
-				// Добавить sceleton View
+				// Добавить Sceleton View
 				Spacer()
 			}
 		}
@@ -45,12 +44,18 @@ struct RoomsView: View {
 			roomsVM.getRoomData()
 		}
 	}
+
+	private func returnHotelSceneView() {
+		DispatchQueue.main.async {
+			self.returnHotelView.wrappedValue.dismiss()
+		}
+	}
 }
 
-///  'RoomCard' Карточка комнаты``TagCloudView``
+///  'RoomCard' Карточка комнаты`
 /// - Parameters:
-/// 	- hotelDescroption: 'DisplayModelHotel'
-/// - Note:
+/// 	- isNumberView: Bool
+/// - Note: Маркер переходв на другое View
 private struct RoomCard: View {
 
 	@State var isNumberView: Bool = false
@@ -108,10 +113,7 @@ private struct RoomCard: View {
 						.background(Color.customBlue)
 						.cornerRadius(15)
 						.navigationDestination(isPresented: $isNumberView) {
-							BookingView(
-								isMainView: $isMainView,
-								idRoom: room.id
-							)
+							BookingView(isMainView: $isMainView)
 						}
 				})
 			}

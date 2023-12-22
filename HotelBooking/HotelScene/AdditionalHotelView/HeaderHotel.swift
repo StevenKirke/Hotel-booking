@@ -9,7 +9,7 @@ import SwiftUI
 
 typealias HeaderDisplayModel = HotelModelEnum.DisplayModelHotel
 
-/// Крточка отеля с каруселью картинок и описанием отеля
+/// Кaрточка отеля с каруселью картинок и описанием отеля
 /// - Parameters:
 /// 	- headerHotel: 'HotelModelEnum.DisplayModelHotel'
 struct HeaderHotel: View {
