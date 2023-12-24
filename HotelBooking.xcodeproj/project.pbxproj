@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3213F0C72B35BA9D0077D0C9 /* EmailValidationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3213F0C62B35BA9D0077D0C9 /* EmailValidationManager.swift */; };
 		3251CFBD2B335473000E4EDD /* GradeAndDescriptionBooking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251CFBC2B335473000E4EDD /* GradeAndDescriptionBooking.swift */; };
 		3251CFC12B3373F7000E4EDD /* PriceCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251CFC02B3373F7000E4EDD /* PriceCard.swift */; };
 		3251CFC32B337AD9000E4EDD /* DescriptionBooking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251CFC22B337AD9000E4EDD /* DescriptionBooking.swift */; };
@@ -67,13 +68,14 @@
 		32C2957A2AAFF9E1000918B9 /* TourisеModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C295792AAFF9E1000918B9 /* TourisеModel.swift */; };
 		32C2957C2AAFFF4B000918B9 /* mockInfoNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C2957B2AAFFF4B000918B9 /* mockInfoNumber.swift */; };
 		32C2957E2AAFFF93000918B9 /* BookingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C2957D2AAFFF93000918B9 /* BookingModel.swift */; };
-		32C295822AB04A2F000918B9 /* CardBooking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C295812AB04A2F000918B9 /* CardBooking.swift */; };
+		32C295822AB04A2F000918B9 /* TouristCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C295812AB04A2F000918B9 /* TouristCard.swift */; };
 		32C387F22AFAB0B10015DC76 /* NameFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C387F12AFAB0B10015DC76 /* NameFields.swift */; };
 		32C387F42AFBC1BB0015DC76 /* LittleButtom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C387F32AFBC1BB0015DC76 /* LittleButtom.swift */; };
 		32C387F72AFBC5A60015DC76 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C387F62AFBC5A60015DC76 /* UIApplication.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3213F0C62B35BA9D0077D0C9 /* EmailValidationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailValidationManager.swift; sourceTree = "<group>"; };
 		3251CFBC2B335473000E4EDD /* GradeAndDescriptionBooking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GradeAndDescriptionBooking.swift; path = ../GradeAndDescriptionBooking.swift; sourceTree = "<group>"; };
 		3251CFC02B3373F7000E4EDD /* PriceCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceCard.swift; sourceTree = "<group>"; };
 		3251CFC22B337AD9000E4EDD /* DescriptionBooking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DescriptionBooking.swift; path = ../DescriptionBooking.swift; sourceTree = "<group>"; };
@@ -137,7 +139,7 @@
 		32C295792AAFF9E1000918B9 /* TourisеModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TourisеModel.swift"; sourceTree = "<group>"; };
 		32C2957B2AAFFF4B000918B9 /* mockInfoNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mockInfoNumber.swift; sourceTree = "<group>"; };
 		32C2957D2AAFFF93000918B9 /* BookingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BookingModel.swift; path = ../BookingModel.swift; sourceTree = "<group>"; };
-		32C295812AB04A2F000918B9 /* CardBooking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardBooking.swift; sourceTree = "<group>"; };
+		32C295812AB04A2F000918B9 /* TouristCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouristCard.swift; sourceTree = "<group>"; };
 		32C387F12AFAB0B10015DC76 /* NameFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameFields.swift; sourceTree = "<group>"; };
 		32C387F32AFBC1BB0015DC76 /* LittleButtom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LittleButtom.swift; sourceTree = "<group>"; };
 		32C387F62AFBC5A60015DC76 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
@@ -154,9 +156,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3213F0C52B35BA780077D0C9 /* EmailMaskManagers */ = {
+			isa = PBXGroup;
+			children = (
+				3213F0C62B35BA9D0077D0C9 /* EmailValidationManager.swift */,
+			);
+			path = EmailMaskManagers;
+			sourceTree = "<group>";
+		};
 		3251CFCA2B349FC6000E4EDD /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				3213F0C52B35BA780077D0C9 /* EmailMaskManagers */,
 				3251CFCB2B34A014000E4EDD /* PhoneMaskManagers */,
 				3288F94E2AA64E1F001FF3D8 /* NetworkManagers */,
 				3288F94A2AA64DD8001FF3D8 /* FileManager */,
@@ -490,7 +501,7 @@
 			isa = PBXGroup;
 			children = (
 				3251CFC62B3382E9000E4EDD /* BayerInformationView.swift */,
-				32C295812AB04A2F000918B9 /* CardBooking.swift */,
+				32C295812AB04A2F000918B9 /* TouristCard.swift */,
 				3258CDF02AD1F8C300CB05FD /* ContactsView.swift */,
 			);
 			name = View;
@@ -713,8 +724,9 @@
 				32642D212AAB9BC100D3E8F9 /* Urls.swift in Sources */,
 				3288F96D2AA7110E001FF3D8 /* CustomTapBar.swift in Sources */,
 				3288F97B2AA7E1C0001FF3D8 /* HeightModifier.swift in Sources */,
-				32C295822AB04A2F000918B9 /* CardBooking.swift in Sources */,
+				32C295822AB04A2F000918B9 /* TouristCard.swift in Sources */,
 				32642D252AAB9CCC00D3E8F9 /* NetworkRequest.swift in Sources */,
+				3213F0C72B35BA9D0077D0C9 /* EmailValidationManager.swift in Sources */,
 				3258CDED2AD1DB3200CB05FD /* MaskPhone.swift in Sources */,
 				3288F9762AA7BDC6001FF3D8 /* AboutHotel.swift in Sources */,
 				3258CDEB2AD1921200CB05FD /* FieldsForCard.swift in Sources */,

@@ -7,49 +7,46 @@
 
 import SwiftUI
 
+/// Блок показа текстовых полей регистрации туриста
+/// - Note: Блок включает в себя информацию о покупателе ``BayerInformationView``
+///	  Список блоков полей ввода регистрации ``TouristCard``
+///	  блок оплаты с кнопкой оплатить ``AddCardTourist``
 struct BayerView: View {
 
 	@ObservedObject var bayerVm: BayerInformationModel = BayerInformationModel(
 		contactService: ContactManager(),
-		phoneMask: PhoneMaskManager()
+		phoneMaskManagers: PhoneMaskManager(),
+		emailManagers: EmailValidationManager()
 	)
 
 	var body: some View {
 		VStack {
 			BayerInformationView(action: {})
-			AddCardTourist(title: "Добавить туриста", action: {addTourist()})
+			ForEach(bayerVm.touristList.indices, id: \.self) { index in
+				let zeroIndex = index == 0 ? true : false
+				let isShowButtomRemove = index == bayerVm.touristList.count - 1 && index != 0 ? false : true
+				TouristCard(
+					title: bayerVm.assambleTitle(index: index),
+					isShowRemove: isShowButtomRemove,
+					isShow: zeroIndex,
+					cardTourist: $bayerVm.touristList[index],
+					remove: {
+						remove()
+					})
+			}
+			if bayerVm.touristList.count < 6 {
+				AddCardTourist(title: "Добавить туриста", action: {
+					addTourist(index: bayerVm.touristList.count)
+				})
+			}
 		}
 	}
 
-	private func addTourist() {
-		print("ADD NEW THE CARD")
+	private func addTourist(index: Int) {
+		bayerVm.addTouristInCard(index: index)
+	}
+
+	private func remove() {
+		bayerVm.removeLastTourist()
 	}
 }
-/*
- .sheet(isPresented: $contactVM.showingOptions, content: {
-	 ContactsView(contactList: contactVM.contactList,
-				  phone: $mvTourist.phone,
-				  showingOptions: $contactVM.showingOptions)
- })
- .onAppear {
-	 self.specification.getSpecification(idRoom)
- }
-		.onChange(of: mvTourist.phone) { value in
-			mvTourist.phone.formatPhoneMumberDateString()
-			if value.count > 18 {
-				UIApplication.shared.endEditing()
-			}
-		}
-		ForEach(mvTourist.tourists.indices, id: \.self) { index in
-			let nameCard = mvTourist.nameTourist[index] + " турист"
-			let zeroIndex = index == 0 ? true : false
-			let lastIndex = index == mvTourist.tourists.count - 1 && index != 0 ? false : true
-			CardBooking(
-				title: nameCard,
-				isShowRemove: lastIndex,
-				isShow: zeroIndex,
-				cardTourist: $mvTourist.tourists[index],
-				remove: { removeCart() }
-			)
-		}
-*/

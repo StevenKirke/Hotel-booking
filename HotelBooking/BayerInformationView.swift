@@ -7,21 +7,18 @@
 
 import SwiftUI
 
-// Карточка Информация о покупателе
+/// Карточка 'Информация о покупателе'
+/// - Note: Блок включает в себя описание, поля ввода почты и телефонного номера,
+///	кнопку показа списка контактов
 struct BayerInformationView: View {
 
-	@ObservedObject var bayerM: BayerInformationModel = BayerInformationModel(
+	@ObservedObject var bayerVM: BayerInformationModel = BayerInformationModel(
 		contactService: ContactManager(),
-		phoneMask: PhoneMaskManager()
+		phoneMaskManagers: PhoneMaskManager(),
+		emailManagers: EmailValidationManager()
 	)
 
-	@State var isValidEmail: Bool = true
-	@State var textPhone: String = ""
-	@State var textEmail: String = ""
-
 	@FocusState private var focus: NameFields?
-
-	@State var isShowContact: Bool = false
 
 	var action: () -> Void
 
@@ -37,9 +34,15 @@ struct BayerInformationView: View {
 					currentField: .phone,
 					type: .phonePad,
 					isEmpty: false,
-					textField: $textPhone,
+					textField: $bayerVM.phone,
 					focus: $focus
 				)
+				.onChange(of: bayerVM.phone) { value in
+					bayerVM.changePhone(phone: value)
+					if value.count > 18 {
+						UIApplication.shared.endEditing()
+					}
+				}
 				Button(action: { contactView() }, label: {
 					Image(systemName: "list.bullet")
 						.resizable()
@@ -53,17 +56,17 @@ struct BayerInformationView: View {
 					currentField: .eMail,
 					type: .emailAddress,
 					isEmpty: false,
-					textField: $textEmail,
+					textField: $bayerVM.eMail,
 					focus: $focus
 				)
-				.onSubmit {
-					if textEmail.textFieldValidatorEmail() {
-						self.isValidEmail = true
-					} else {
-						self.isValidEmail = false
+				.onChange(of: bayerVM.eMail) { value in
+					DispatchQueue.main.async {
+						withAnimation(.linear(duration: 1)) {
+							bayerVM.validationEmail(email: value)
+						}
 					}
 				}
-				if !isValidEmail && !textEmail.isEmpty {
+				if !bayerVM.isValidEmail && !bayerVM.eMail.isEmpty {
 					IsValidEMail()
 				}
 			}
@@ -72,26 +75,23 @@ struct BayerInformationView: View {
 				.foregroundColor(.customOmbreGray)
 		}
 		.solidBlackground()
-		.sheet(isPresented: $isShowContact, content: {
+		.sheet(isPresented: $bayerVM.isShowContact, content: {
 			ContactsView(
-				contactList: bayerM.contactList,
-				phone: $textPhone,
-				isShowContact: $isShowContact
+				contactList: bayerVM.contactList,
+				phone: $bayerVM.phone,
+				isShowContact: $bayerVM.isShowContact
 			)
 		})
 	}
 
 	private func contactView() {
 		DispatchQueue.main.async {
-			bayerM.fetchContactList()
-			if !bayerM.contactList.isEmpty {
-				self.isShowContact.toggle()
-			}
+			bayerVM.fetchContactList()
 		}
 	}
 }
 
-struct IsValidEMail: View {
+private struct IsValidEMail: View {
 	var body: some View {
 		HStack(spacing: 5) {
 			Image(systemName: "asterisk")

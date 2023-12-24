@@ -107,23 +107,6 @@ extension String {
 
 }
 
-/*
-
- var phoneNumber: String
-
- mutating func formatPhoneMumberDateString() {
- if phoneNumber.count <= 18 {
- let removeNonNuneric = phoneNumber.removeNonNum()
- let convert = removeNonNuneric.formatMaskPhone(.mobile)
- let crop = String(convert.prefix(18))
- phoneNumber = crop
- }
- if phoneNumber.count > 18 {
- phoneNumber.removeLast()
- }
- }
- */
-
 extension Int {
 	func centesimal() -> String {
 		let convert: NSNumber = self as NSNumber

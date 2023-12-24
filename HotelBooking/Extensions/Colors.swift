@@ -16,7 +16,7 @@ extension Color {
 		case black05
 		case customBlue
 		case customBlue10
-		case customDarkGrey
+		case customA9ABB7
 		case customOmbreGray
 		case customBlack15
 		case customMiddleGray
@@ -45,7 +45,7 @@ extension Color {
 
 	static let grayE8E9EC = Color(Name.grayE8E9EC)
 
-	static let customDarkGrey = Color(Name.customDarkGrey)
+	static let customA9ABB7 = Color(Name.customA9ABB7)
 	static let customMiddleGray = Color(Name.customMiddleGray)
 	static let ColorF6F6F9 = Color(Name.colorF6F6F9)
 	static let ColorFBFBFC = Color(Name.colorFBFBFC)

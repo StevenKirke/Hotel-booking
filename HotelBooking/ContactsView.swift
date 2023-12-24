@@ -9,6 +9,7 @@ import SwiftUI
 
 typealias ContactListDisplay = BuyerInformation.Contact
 
+/// Окно контактов, список контактов из телефонной книги
 struct ContactsView: View {
 
 	var contactList: [ContactListDisplay]
@@ -45,7 +46,7 @@ struct ContactsView: View {
 								.modifier(HeightModifier(size: 16,
 														 lineHeight: 120,
 														 weight: .medium))
-								.foregroundColor(.customDarkGrey)
+								.foregroundColor(.customA9ABB7)
 							Spacer()
 							Text(contact.mask)
 								.modifier(HeightModifier(size: 16,
@@ -77,8 +78,7 @@ struct ContactsView: View {
 
 	private func addContact(contact: ContactListDisplay) {
 		DispatchQueue.main.async {
-			self.phone = contact.number
-			print("phone  \(self.phone )")
+			self.phone = contact.mask
 			self.closeActionView()
 		}
 	}

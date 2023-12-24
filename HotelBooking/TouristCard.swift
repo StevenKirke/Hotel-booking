@@ -7,14 +7,15 @@
 
 import SwiftUI
 
-struct CardBooking: View {
-
+struct TouristCard: View {
 	let title: String
 	var isShowRemove: Bool = false
+
 	@State var isShow: Bool = false
 	@State var isEmpty: Bool = false
 	@Binding var cardTourist: FieldsTouristCard
 	@FocusState private var focus: NameFields?
+
 	var remove: () -> Void
 
 	var body: some View {
@@ -23,10 +24,11 @@ struct CardBooking: View {
 				isShow: $isShow,
 				title: title,
 				isShowRemove: isShowRemove,
-				action: showCart,
+				action: { showCart() },
 				remove: remove
 			)
 			.padding(.bottom, isShow ? 17 : 0)
+
 			if self.isShow {
 				VStack(spacing: 8) {
 					TextFieldForTouristWithPlaceholder(
@@ -106,7 +108,7 @@ struct CardBooking: View {
 	}
 }
 
-extension CardBooking {
+extension TouristCard {
 
 	private func showCart() {
 		DispatchQueue.main.async {
@@ -176,21 +178,17 @@ struct TextFieldForTourist: View {
 		ZStack(alignment: .leading) {
 			if textField.isEmpty {
 				Text(placeHolder)
-					.modifier(HeightModifier(
-						size: 17,
-						lineHeight: 110,
-						weight: .regular
+					.modifier(
+						HeightModifier(size: 17, lineHeight: 110, weight: .regular)
 					)
-					)
-					.foregroundColor(.customRed)
+					.foregroundColor(.customA9ABB7)
 			}
 			TextField("", text: $textField)
 				.focused($focus, equals: currentField)
-				.modifier(HeightModifier(size: 17,
-										 lineHeight: 110,
-										 weight: .regular))
+				.modifier(HeightModifier(size: 17, lineHeight: 110, weight: .regular)
+				)
 				.tracking(0.1)
-				.foregroundColor(.customRed)
+				.foregroundColor(.customA9ABB7)
 				.tint(.black)
 				.keyboardType(type)
 		}
@@ -198,6 +196,12 @@ struct TextFieldForTourist: View {
 	}
 }
 
+/// Блок показа полей регистрации туриста
+/// - Parameters:
+///   - title: String
+///   - isShowRemove: Bool Показать / спрятать кнопку 'Удалить туриста'
+///   - action: Отображение полей ввода
+///   - remove: Удаление замыкающего блока полей ввода
 struct ShowCardTourist: View {
 
 	@Binding var isShow: Bool
@@ -267,7 +271,6 @@ struct AddCardTourist: View {
 			.cornerRadius(6)
 		}
 		.solidBlackground()
-
 	}
 }
 

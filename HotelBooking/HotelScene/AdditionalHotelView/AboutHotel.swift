@@ -83,7 +83,7 @@ struct ButtonServices: View {
 				VStack(alignment: .leading, spacing: 0) {
 					Text(service.title)
 						.modifier(HeightModifier(size: 16, lineHeight: 120, weight: .medium))
-						.foregroundColor(.customDarkGrey)
+						.foregroundColor(.customA9ABB7)
 					Text(service.discription)
 						.modifier(HeightModifier(size: 14, lineHeight: 120, weight: .medium))
 						.foregroundColor(.customOmbreGray)
@@ -93,7 +93,7 @@ struct ButtonServices: View {
 					Image(systemName: "chevron.right")
 						.frame(width: 24, height: 24)
 						.font(.system(size: 16))
-						.foregroundColor(.customDarkGrey)
+						.foregroundColor(.customA9ABB7)
 				}
 			}
 			.coordinateSpace(name: "Devider")

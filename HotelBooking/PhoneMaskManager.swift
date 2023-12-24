@@ -9,6 +9,7 @@ import Foundation
 
 protocol IPhoneMaskManager {
 	func maskForNumber(phoneNumber: String) -> String
+	func cropPhoneNumber(phone: String) -> String
 }
 
 final class PhoneMaskManager: IPhoneMaskManager {
@@ -33,6 +34,20 @@ final class PhoneMaskManager: IPhoneMaskManager {
 		}
 
 		return tempNumber
+	}
+
+	func cropPhoneNumber(phone: String) -> String {
+		var currentPhone: String = ""
+		if currentPhone.count <= 18 {
+			let removeNonNuneric = phone.removeNonNum()
+			let convert = formatMaskPhone(phone: removeNonNuneric, mask: .mobile)
+			let crop = String(convert.prefix(18))
+			currentPhone = crop
+		}
+		if currentPhone.count > 18 {
+			currentPhone.removeLast()
+		}
+		return currentPhone
 	}
 
 	private func formatMaskPhone(phone: String, mask: MaskPhone) -> String {

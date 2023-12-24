@@ -20,13 +20,18 @@ struct BookingView: View {
 		ZStack {
 			Color.ColorF6F6F9
 			if let model = bookingVM.displayBooking {
+				let payTitle = model.pay
 				VStack(spacing: 8) {
 					CustomNavigationTabBar(
 						label: "Бронирование",
-						content: ButtonForNavigationTabBar(action: {returnView()})
+						content: ButtonForNavigationTabBar {
+							returnView()
+						}
 					)
 					ScroolBlock(model: model)
-					CustomTapBar(label: bookingVM.displayBooking?.pay ?? "", action: {})
+					CustomTapBar(label: payTitle) {
+						transitionPairView()
+					}
 				}
 			}
 		}
@@ -46,6 +51,12 @@ struct BookingView: View {
 			self.returnRoomsView.wrappedValue.dismiss()
 		}
 	}
+
+	private func transitionPairView() {
+		DispatchQueue.main.async {
+			
+		}
+	}
 }
 
 private struct ScroolBlock: View {
@@ -57,12 +68,6 @@ private struct ScroolBlock: View {
 			GradeAndDescriptionBooking(modelBiooking: model)
 			BayerView()
 			PriceCard(price: model.price)
-		}
-	}
-
-	private func pairView() {
-		DispatchQueue.main.async {
-			print("PAIR SCENE")
 		}
 	}
 }
