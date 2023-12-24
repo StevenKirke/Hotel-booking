@@ -1,4 +1,6 @@
 #  Hotel booking
+![ForRepository](https://github.com/StevenKirke/Hotel-booking/assets/33865213/1e38b4ae-ad7c-41c1-bd66-abeec41ca160)
+
 
 ## Description
 ### This project is a test task. Includes 4 scenes with display: Hotel, Rooms, Room and Pair.
