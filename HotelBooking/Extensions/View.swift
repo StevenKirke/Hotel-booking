@@ -12,7 +12,7 @@ extension View {
 		self.frame(maxWidth: .infinity, alignment: .leading)
 	}
 
-	func vLeadingAndBack(_ isColor: Bool) -> some View {
+	func vLeadingAndBack(isColor: Bool) -> some View {
 		self
 			.padding(.horizontal, 16)
 			.frame(maxWidth: .infinity, alignment: .leading)

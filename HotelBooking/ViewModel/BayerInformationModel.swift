@@ -7,11 +7,12 @@
 
 import UIKit
 
+typealias CurrentTouristCard = BuyerInformation.FieldsTouristCard
 typealias ContactList = BuyerInformation.Contact
 
 protocol IBayerInformationModel {
 	func assambleTitle(index: Int) -> String
-	func currentTourist(index: Int) -> FieldsTouristCard
+	func currentTourist(index: Int) -> CurrentTouristCard
 	func removeLastTourist()
 	func answerInEmptyField()
 }
@@ -29,7 +30,7 @@ final class BayerInformationModel: ObservableObject, IBayerInformationModel {
 	@Published var isValidEmail: Bool = false
 
 	@Published var contactList: [ContactList] = []
-	@Published var touristList: [FieldsTouristCard] = []
+	@Published var touristList: [CurrentTouristCard] = []
 	@Published var isShowContact: Bool = false
 
 	// MARK: - Private properties
@@ -63,7 +64,7 @@ final class BayerInformationModel: ObservableObject, IBayerInformationModel {
 		return currentTitle
 	}
 
-	func currentTourist(index: Int) -> FieldsTouristCard {
+	func currentTourist(index: Int) -> CurrentTouristCard {
 		touristList[index]
 	}
 
@@ -72,7 +73,7 @@ final class BayerInformationModel: ObservableObject, IBayerInformationModel {
 	}
 
 	func answerInEmptyField() {
-
+		checkAllCard()
 	}
 }
 
@@ -139,28 +140,28 @@ extension BayerInformationModel {
 	func addTouristInCard(index: Int) {
 		if index < nameTourist.count {
 			self.touristList.append(
-				FieldsTouristCard(
-					firstName: FieldSave(
+				BuyerInformation.FieldsTouristCard(
+					firstName: BuyerInformation.FieldSave(
 						text: "",
 						placeholder: "Имя"
 					),
-					lastName: FieldSave(
+					lastName: BuyerInformation.FieldSave(
 						text: "",
 						placeholder: "Фамилия"
 					),
-					dateBirth: FieldSave(
+					dateBirth: BuyerInformation.FieldSave(
 						text: "",
 						placeholder: "Дата рождения"
 					),
-					citizenShip: FieldSave(
+					citizenShip: BuyerInformation.FieldSave(
 						text: "",
 						placeholder: "Гражданство"
 					),
-					numberPassport: FieldSave(
+					numberPassport: BuyerInformation.FieldSave(
 						text: "",
 						placeholder: "Номер загранпаспорта"
 					),
-					validityPeriodPassport: FieldSave(
+					validityPeriodPassport: BuyerInformation.FieldSave(
 						text: "",
 						placeholder: "Срок действия загранпаспорта"
 					)
@@ -169,43 +170,26 @@ extension BayerInformationModel {
 		}
 	}
 }
-	/*
-	 //@Published var fullCart: FullCart?
 
-	func writeForJSON() {
-		self.fullCart = FullCart(
-			phone: phone,
-			eMail: eMail,
-			tuorists: tourists
-		)
+// MARK: - ACTION UI Проверка полей на пустоту
+extension BayerInformationModel {
+	private func checkAllCard() {
+		for index in touristList {
+			checkFieldsInCardTourist(cartTourist: index)
+		}
 	}
-	 */
 
-struct FullCart {
-	var phone: String
-	var eMail: String
-	var tuorists: [FieldsTouristCard]
-}
+	private func checkFieldsInCardTourist(cartTourist: CurrentTouristCard) {
+		let mirrorField = Mirror(reflecting: cartTourist)
 
-enum CheckField: String, CaseIterable {
-	case activeField = "Active field"
-	case inactiveField = "Inactive field"
-
-}
-
-struct FieldsTouristCard {
-	var firstName: FieldSave
-	var lastName: FieldSave
-	var dateBirth: FieldSave
-	var citizenShip: FieldSave
-	var numberPassport: FieldSave
-	var validityPeriodPassport: FieldSave
-}
-
-struct FieldSave {
-	var text: String
-	var placeholder: String
-	var isEmpty: Bool {
-		!text.isEmpty ? true : false
+		for (property, value) in mirrorField.children {
+			if let currentField = value as? BuyerInformation.FieldSave {
+				if currentField.isEmpty {
+					print("Field dont is empty")
+				} else {
+					print("Field is empty")
+				}
+			}
+		}
 	}
 }

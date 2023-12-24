@@ -23,22 +23,25 @@ struct BayerView: View {
 		VStack {
 			BayerInformationView(action: {})
 			ForEach(bayerVm.touristList.indices, id: \.self) { index in
-				let zeroIndex = index == 0 ? true : false
+				let isExpandCard = index == 0 ? true : false
 				let isShowButtomRemove = index == bayerVm.touristList.count - 1 && index != 0 ? false : true
 				TouristCard(
 					title: bayerVm.assambleTitle(index: index),
 					isShowRemove: isShowButtomRemove,
-					isShow: zeroIndex,
-					cardTourist: $bayerVm.touristList[index],
-					remove: {
-						remove()
-					})
+					isShow: isExpandCard,
+					cardTourist: $bayerVm.touristList[index]) { remove() }
 			}
 			if bayerVm.touristList.count < 6 {
 				AddCardTourist(title: "Добавить туриста", action: {
 					addTourist(index: bayerVm.touristList.count)
 				})
 			}
+			Button {
+				bayerVm.answerInEmptyField()
+			} label: {
+				Text("Answer Field")
+			}
+
 		}
 	}
 

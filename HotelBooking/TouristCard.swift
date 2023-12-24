@@ -13,7 +13,7 @@ struct TouristCard: View {
 
 	@State var isShow: Bool = false
 	@State var isEmpty: Bool = false
-	@Binding var cardTourist: FieldsTouristCard
+	@Binding var cardTourist: BuyerInformation.FieldsTouristCard
 	@FocusState private var focus: NameFields?
 
 	var remove: () -> Void
@@ -147,21 +147,30 @@ struct TextFieldForTouristWithPlaceholder: View {
 	@FocusState.Binding var focus: NameFields?
 
 	var body: some View {
-		VStack(alignment: .leading, spacing: 0) {
-			Text(placeHolder)
-				.modifier(HeightModifier(size: 12, lineHeight: 120, weight: .regular))
-				.tracking(0.1)
-				.foregroundColor(.customOmbreGray)
-			TextField("", text: $textField)
-				.focused($focus, equals: currentField)
-				.modifier(HeightModifier(size: 16, lineHeight: 110, weight: .regular))
-				.tracking(0.075)
-				.foregroundColor(.customDarkBlue)
-				.textContentType(.name)
-				.tint(Color.black)
-				.keyboardType(type)
+		HStack {
+			VStack(alignment: .leading, spacing: 0) {
+				Text(placeHolder)
+					.modifier(HeightModifier(size: 12, lineHeight: 120, weight: .regular))
+					.tracking(0.1)
+					.foregroundColor(.customOmbreGray)
+				TextField("", text: $textField)
+					.focused($focus, equals: currentField)
+					.modifier(HeightModifier(size: 16, lineHeight: 110, weight: .regular))
+					.tracking(0.075)
+					.foregroundColor(.custom14142B)
+					.textContentType(.name)
+					.tint(Color.black)
+					.keyboardType(type)
+			}
+			Circle()
+				.fill(isEmptyField())
+				.frame(width: 8, height: 8)
 		}
-		.vLeadingAndBack((self.textField.isEmpty && self.isEmpty) ? false : true)
+		.vLeadingAndBack(isColor: (self.textField.isEmpty && self.isEmpty) ? false : true)
+	}
+
+	private func isEmptyField() -> Color {
+		self.isEmpty ? .green : .red
 	}
 }
 
@@ -175,24 +184,33 @@ struct TextFieldForTourist: View {
 	@FocusState.Binding var focus: NameFields?
 
 	var body: some View {
-		ZStack(alignment: .leading) {
-			if textField.isEmpty {
-				Text(placeHolder)
-					.modifier(
-						HeightModifier(size: 17, lineHeight: 110, weight: .regular)
+		HStack {
+			ZStack(alignment: .leading) {
+				if textField.isEmpty {
+					Text(placeHolder)
+						.modifier(
+							HeightModifier(size: 17, lineHeight: 110, weight: .regular)
+						)
+						.foregroundColor(.customA9ABB7)
+				}
+				TextField("", text: $textField)
+					.focused($focus, equals: currentField)
+					.modifier(HeightModifier(size: 17, lineHeight: 110, weight: .regular)
 					)
-					.foregroundColor(.customA9ABB7)
+					.tracking(0.1)
+					.foregroundColor(.custom14142B)
+					.tint(.black)
+					.keyboardType(type)
 			}
-			TextField("", text: $textField)
-				.focused($focus, equals: currentField)
-				.modifier(HeightModifier(size: 17, lineHeight: 110, weight: .regular)
-				)
-				.tracking(0.1)
-				.foregroundColor(.customA9ABB7)
-				.tint(.black)
-				.keyboardType(type)
+			Circle()
+				.fill(isEmptyField())
+				.frame(width: 8, height: 8)
 		}
-		.vLeadingAndBack((self.textField.isEmpty && self.isEmpty) ? false : true)
+		.vLeadingAndBack(isColor: (self.textField.isEmpty && self.isEmpty) ? false : true)
+	}
+
+	private func isEmptyField() -> Color {
+		self.isEmpty ? .green : .red
 	}
 }
 

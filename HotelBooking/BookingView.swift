@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Экран регистрации туриста
 struct BookingView: View {
 
 	@Environment(\.presentationMode) var returnRoomsView: Binding<PresentationMode>
@@ -54,7 +55,7 @@ struct BookingView: View {
 
 	private func transitionPairView() {
 		DispatchQueue.main.async {
-			
+			print("CLICK PAY")
 		}
 	}
 }

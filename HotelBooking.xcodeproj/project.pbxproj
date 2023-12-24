@@ -222,10 +222,10 @@
 		3251CFD32B34B911000E4EDD /* BayerView */ = {
 			isa = PBXGroup;
 			children = (
+				3251CFD72B34C4CA000E4EDD /* BayerView.swift */,
 				329923A52B2E1B9D00B8AB55 /* View */,
 				329923A42B2E1B8900B8AB55 /* ViewModel */,
 				329923A62B2E1BA400B8AB55 /* Model */,
-				3251CFD72B34C4CA000E4EDD /* BayerView.swift */,
 			);
 			name = BayerView;
 			sourceTree = "<group>";

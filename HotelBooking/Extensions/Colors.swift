@@ -26,7 +26,7 @@ extension Color {
 		case customYellow20
 		case customRed15
 		case customRed
-		case customDarkBlue
+		case custom14142B
 		case grayE8E9EC
 	}
 
@@ -58,7 +58,7 @@ extension Color {
 	static let customRed15 = Color(Name.customRed15)
 	static let customRed = Color(Name.customRed)
 
-	static let customDarkBlue = Color(Name.customDarkBlue)
+	static let custom14142B = Color(Name.custom14142B)
 }
 
 extension Color.Name {
